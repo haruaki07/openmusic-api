@@ -97,7 +97,7 @@ class SongHandler {
   };
 
   /**
-   * Menghapus album berdasarkan id.
+   * Menghapus lagu berdasarkan id.
    *
    * @type {Handler}
    */
