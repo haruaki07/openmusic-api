@@ -1,4 +1,4 @@
-const { SongRequest } = require("../../models/song");
+const { SongRequest, SongFilterQuery } = require("../../models/song");
 
 /** @typedef {import("@hapi/hapi").Lifecycle.Method} Handler */
 
@@ -45,8 +45,9 @@ class SongHandler {
    *
    * @type {Handler}
    */
-  getAll = async (_req, h) => {
-    const songs = await this._songService.findAll();
+  getAll = async (req, h) => {
+    const filter = this._songValidator.validateSongFilter(req.query);
+    const songs = await this._songService.findAll(filter);
 
     const res = h.response({
       status: "success",

@@ -51,8 +51,20 @@ class SongSimple {
   }
 }
 
+class SongFilterQuery {
+  /**
+   * @param {string} title
+   * @param {string} performer
+   */
+  constructor(title, performer) {
+    this.title = title;
+    this.performer = performer;
+  }
+}
+
 module.exports = {
   Song,
+  SongFilterQuery,
   SongRequest,
   SongSimple,
 };

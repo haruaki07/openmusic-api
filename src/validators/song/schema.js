@@ -8,3 +8,8 @@ exports.songPayloadSchema = Yup.object({
   duration: Yup.number(),
   albumId: Yup.string(),
 });
+
+exports.songFilterSchema = Yup.object({
+  title: Yup.string().notRequired(),
+  performer: Yup.string().notRequired(),
+}).notRequired();

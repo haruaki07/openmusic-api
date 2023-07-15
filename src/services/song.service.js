@@ -13,7 +13,6 @@ class SongService {
    * @returns {Promise<string>}
    */
   async insert({ title, year, genre, performer, duration, albumId }) {
-    console.log(arguments);
     const id = "song-" + nanoid(16);
     const query = {
       text: `
@@ -35,11 +34,24 @@ RETURNING
     return result.rows[0].id;
   }
 
-  async findAll() {
-    const result = await this._pool.query(
-      "SELECT id, title, performer FROM songs"
-    );
+  /** @param {import("../models/song").SongFilterQuery} filter */
+  async findAll(filter = {}) {
+    const q = {
+      text: "SELECT id, title, performer FROM songs",
+      values: [],
+    };
 
+    const filterKeys = filter ? Object.keys(filter) : [];
+    if (filterKeys.length > 0) {
+      q.text += " WHERE";
+      filterKeys.forEach((k, i) => {
+        if (i > 0) q.text += " AND";
+        q.text += ` ${k} ILIKE $${i + 1}`;
+        q.values.push(`%${filter[k]}%`);
+      });
+    }
+
+    const result = await this._pool.query(q);
     return result.rows.map((r) => new SongSimple(r.id, r.title, r.performer));
   }
 
