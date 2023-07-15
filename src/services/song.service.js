@@ -98,14 +98,14 @@ WHERE
   /** @param {string} id */
   async deleteById(id) {
     const query = {
-      text: `DELETE FROM albums WHERE id=$1`,
+      text: `DELETE FROM songs WHERE id=$1`,
       values: [id],
     };
 
     const result = await this._pool.query(query);
 
     if (result.rowCount < 1) {
-      throw new NotFoundError("Gagal menghapus album! Album tidak ditemukan.");
+      throw new NotFoundError("Gagal menghapus lagu! Lagu tidak ditemukan.");
     }
   }
 }

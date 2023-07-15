@@ -108,7 +108,7 @@ class SongHandler {
 
     const res = h.response({
       status: "success",
-      message: "Album berhasil dihapus!",
+      message: "Lagu berhasil dihapus!",
     });
     res.code(200);
 
