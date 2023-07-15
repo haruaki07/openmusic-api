@@ -61,11 +61,30 @@ class AlbumHandler {
     const id = req.params.id;
     const payload = this._albumValidator.validateAlbumPayload(req.payload);
 
-    const album = await this._albumService.updateAlbumById(id, payload);
+    await this._albumService.updateAlbumById(id, payload);
 
     const res = h.response({
       status: "success",
-      message: "Berhasil memperbarui album!",
+      message: "Album berhasil diperbarui!",
+    });
+    res.code(200);
+
+    return res;
+  };
+
+  /**
+   * Menghapus album berdasarkan id.
+   *
+   * @type {Handler}
+   */
+  destroy = async (req, h) => {
+    const id = req.params.id;
+
+    await this._albumService.deleteAlbumById(id);
+
+    const res = h.response({
+      status: "success",
+      message: "Album berhasil dihapus!",
     });
     res.code(200);
 

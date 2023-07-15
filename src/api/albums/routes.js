@@ -19,6 +19,11 @@ const routes = (handler) => [
     path: "/{id}",
     handler: handler.update,
   },
+  {
+    method: "DELETE",
+    path: "/{id}",
+    handler: handler.destroy,
+  },
 ];
 
 module.exports = routes;

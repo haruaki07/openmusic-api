@@ -10,7 +10,7 @@ class AlbumService {
 
   /**
    * @param {AlbumRequest} param0
-   * @returns {string}
+   * @returns {Promise<string>}
    */
   async addAlbum({ name, year }) {
     const id = "album-" + nanoid(16);
@@ -57,8 +57,22 @@ class AlbumService {
 
     if (result.rowCount < 1) {
       throw new NotFoundError(
-        "Gagal memperbarui album. Album tidak ditemukan!"
+        "Gagal memperbarui album! Album tidak ditemukan."
       );
+    }
+  }
+
+  /** @param {string} id */
+  async deleteAlbumById(id) {
+    const query = {
+      text: `DELETE FROM albums WHERE id=$1`,
+      values: [id],
+    };
+
+    const result = await this._pool.query(query);
+
+    if (result.rowCount < 1) {
+      throw new NotFoundError("Gagal menghapus album! Album tidak ditemukan.");
     }
   }
 }
