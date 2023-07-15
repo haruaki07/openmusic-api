@@ -77,19 +77,19 @@ class SongHandler {
   };
 
   /**
-   * Mengubah album berdasarkan id album.
+   * Mengubah lagu berdasarkan id lagu.
    *
    * @type {Handler}
    */
   update = async (req, h) => {
     const id = req.params.id;
-    const payload = this._songValidator.validateAlbumPayload(req.payload);
+    const payload = this._songValidator.validateSongPayload(req.payload);
 
     await this._songService.updateById(id, payload);
 
     const res = h.response({
       status: "success",
-      message: "Album berhasil diperbarui!",
+      message: "Lagu berhasil diperbarui!",
     });
     res.code(200);
 

@@ -66,20 +66,32 @@ RETURNING
 
   /**
    * @param {string} id
-   * @param {SongRequest} param1
+   * @param {SongRequest} payload
    */
-  async updateById(id, { name, year }) {
+  async updateById(id, payload) {
     const query = {
-      text: `UPDATE albums SET name=$1, year=$2, "updatedAt"=now() WHERE id=$3`,
-      values: [name, year, id],
+      text: `
+UPDATE 
+  songs 
+SET 
+  title=$2, year=$3, genre=$4, performer=$5, duration=$6, "albumId"=$7, "updatedAt"=now() 
+WHERE 
+  id=$1`,
+      values: [
+        id,
+        payload.title,
+        payload.year,
+        payload.genre,
+        payload.performer,
+        payload.duration,
+        payload.albumId,
+      ],
     };
 
     const result = await this._pool.query(query);
 
     if (result.rowCount < 1) {
-      throw new NotFoundError(
-        "Gagal memperbarui album! Album tidak ditemukan."
-      );
+      throw new NotFoundError("Gagal memperbarui lagu! Lagu tidak ditemukan.");
     }
   }
 
