@@ -13,6 +13,7 @@ class SongService {
    * @returns {Promise<string>}
    */
   async insert({ title, year, genre, performer, duration, albumId }) {
+    console.log(arguments);
     const id = "song-" + nanoid(16);
     const query = {
       text: `
