@@ -85,7 +85,17 @@ class SongHandler {
     const id = req.params.id;
     const payload = this._songValidator.validateSongPayload(req.payload);
 
-    await this._songService.updateById(id, payload);
+    await this._songService.updateById(
+      id,
+      new SongRequest(
+        payload.title,
+        payload.year,
+        payload.genre,
+        payload.performer,
+        payload.duration,
+        payload.albumId
+      )
+    );
 
     const res = h.response({
       status: "success",
