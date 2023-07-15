@@ -14,6 +14,11 @@ const routes = (handler) => [
     path: "/{id}",
     handler: handler.show,
   },
+  {
+    method: "PUT",
+    path: "/{id}",
+    handler: handler.update,
+  },
 ];
 
 module.exports = routes;

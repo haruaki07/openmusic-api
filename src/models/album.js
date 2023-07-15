@@ -11,7 +11,7 @@ class Album {
   }
 }
 
-class CreateAlbumRequest {
+class AlbumRequest {
   /**
    * @param {string} name
    * @param {number} year
@@ -24,5 +24,5 @@ class CreateAlbumRequest {
 
 module.exports = {
   Album,
-  CreateAlbumRequest,
+  AlbumRequest,
 };

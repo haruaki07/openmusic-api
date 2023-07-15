@@ -1,4 +1,4 @@
-const { CreateAlbumRequest } = require("../../models/album");
+const { AlbumRequest } = require("../../models/album");
 
 /** @typedef {import("@hapi/hapi").Lifecycle.Method} Handler */
 
@@ -21,7 +21,7 @@ class AlbumHandler {
     const payload = this._albumValidator.validateAlbumPayload(req.payload);
 
     const albumId = await this._albumService.addAlbum(
-      new CreateAlbumRequest(payload.name, payload.year)
+      new AlbumRequest(payload.name, payload.year)
     );
 
     const res = h.response({
@@ -44,8 +44,28 @@ class AlbumHandler {
     const album = await this._albumService.getAlbumById(id);
 
     const res = h.response({
-      message: "success",
+      status: "success",
       data: album,
+    });
+    res.code(200);
+
+    return res;
+  };
+
+  /**
+   * Mengubah album berdasarkan id album.
+   *
+   * @type {Handler}
+   */
+  update = async (req, h) => {
+    const id = req.params.id;
+    const payload = this._albumValidator.validateAlbumPayload(req.payload);
+
+    const album = await this._albumService.updateAlbumById(id, payload);
+
+    const res = h.response({
+      status: "success",
+      message: "Berhasil memperbarui album!",
     });
     res.code(200);
 

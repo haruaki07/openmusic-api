@@ -1,9 +1,9 @@
 const { ClientError } = require("../../exceptions");
-const { CreateAlbumRequest } = require("../../models/album");
+const { AlbumRequest } = require("../../models/album");
 const { albumPayloadSchema } = require("./schema");
 
 class AlbumValidator {
-  /** @param {CreateAlbumRequest} payload */
+  /** @param {AlbumRequest} payload */
   validateAlbumPayload(payload) {
     if (!payload) throw new ClientError("Body tidak boleh kosong");
 

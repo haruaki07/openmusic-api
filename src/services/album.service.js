@@ -1,4 +1,4 @@
-const { CreateAlbumRequest, Album } = require("../models/album");
+const { AlbumRequest, Album } = require("../models/album");
 const { InvariantError, NotFoundError } = require("../exceptions");
 const { nanoid } = require("nanoid");
 
@@ -8,7 +8,10 @@ class AlbumService {
     this._pool = pool;
   }
 
-  /** @param {CreateAlbumRequest} param0 */
+  /**
+   * @param {AlbumRequest} param0
+   * @returns {string}
+   */
   async addAlbum({ name, year }) {
     const id = "album-" + nanoid(16);
     const query = {
@@ -38,6 +41,25 @@ class AlbumService {
 
     const row = result.rows[0];
     return new Album(row.id, row.name, row.year);
+  }
+
+  /**
+   * @param {string} id
+   * @param {AlbumRequest} param1
+   */
+  async updateAlbumById(id, { name, year }) {
+    const query = {
+      text: `UPDATE albums SET name=$1, year=$2, "updatedAt"=now() WHERE id=$3`,
+      values: [name, year, id],
+    };
+
+    const result = await this._pool.query(query);
+
+    if (result.rowCount < 1) {
+      throw new NotFoundError(
+        "Gagal memperbarui album. Album tidak ditemukan!"
+      );
+    }
   }
 }
 
