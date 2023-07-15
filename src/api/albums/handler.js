@@ -20,7 +20,7 @@ class AlbumHandler {
   store = async (req, h) => {
     const payload = this._albumValidator.validateAlbumPayload(req.payload);
 
-    const albumId = await this._albumService.addAlbum(
+    const albumId = await this._albumService.insert(
       new AlbumRequest(payload.name, payload.year)
     );
 
@@ -41,7 +41,7 @@ class AlbumHandler {
   show = async (req, h) => {
     const id = req.params.id;
 
-    const album = await this._albumService.getAlbumById(id);
+    const album = await this._albumService.findById(id);
 
     const res = h.response({
       status: "success",
@@ -61,7 +61,7 @@ class AlbumHandler {
     const id = req.params.id;
     const payload = this._albumValidator.validateAlbumPayload(req.payload);
 
-    await this._albumService.updateAlbumById(id, payload);
+    await this._albumService.updateById(id, payload);
 
     const res = h.response({
       status: "success",
@@ -80,7 +80,7 @@ class AlbumHandler {
   destroy = async (req, h) => {
     const id = req.params.id;
 
-    await this._albumService.deleteAlbumById(id);
+    await this._albumService.deleteById(id);
 
     const res = h.response({
       status: "success",

@@ -12,7 +12,7 @@ class AlbumService {
    * @param {AlbumRequest} param0
    * @returns {Promise<string>}
    */
-  async addAlbum({ name, year }) {
+  async insert({ name, year }) {
     const id = "album-" + nanoid(16);
     const query = {
       text: "INSERT INTO albums(id, name, year) VALUES($1, $2, $3) RETURNING id",
@@ -29,7 +29,7 @@ class AlbumService {
   }
 
   /** @param {string} id */
-  async getAlbumById(id) {
+  async findById(id) {
     const result = await this._pool.query(
       "SELECT id, name, year FROM albums WHERE id=$1",
       [id]
@@ -47,7 +47,7 @@ class AlbumService {
    * @param {string} id
    * @param {AlbumRequest} param1
    */
-  async updateAlbumById(id, { name, year }) {
+  async updateById(id, { name, year }) {
     const query = {
       text: `UPDATE albums SET name=$1, year=$2, "updatedAt"=now() WHERE id=$3`,
       values: [name, year, id],
@@ -63,7 +63,7 @@ class AlbumService {
   }
 
   /** @param {string} id */
-  async deleteAlbumById(id) {
+  async deleteById(id) {
     const query = {
       text: `DELETE FROM albums WHERE id=$1`,
       values: [id],
