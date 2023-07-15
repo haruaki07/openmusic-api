@@ -58,18 +58,18 @@ class SongHandler {
   };
 
   /**
-   * Mendapatkan album berdasarkan id.
+   * Mendapatkan lagu berdasarkan id.
    *
    * @type {Handler}
    */
   show = async (req, h) => {
     const id = req.params.id;
 
-    const album = await this._songService.findById(id);
+    const song = await this._songService.findById(id);
 
     const res = h.response({
       status: "success",
-      data: album,
+      data: { song },
     });
     res.code(200);
 

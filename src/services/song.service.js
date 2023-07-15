@@ -44,17 +44,24 @@ RETURNING
 
   /** @param {string} id */
   async findById(id) {
-    const result = await this._pool.query(
-      "SELECT id, name, year FROM albums WHERE id=$1",
-      [id]
-    );
+    const result = await this._pool.query("SELECT * FROM songs WHERE id=$1", [
+      id,
+    ]);
 
     if (result.rowCount < 1) {
-      throw new NotFoundError("Album tidak ditemukan!");
+      throw new NotFoundError("Lagu tidak ditemukan!");
     }
 
     const row = result.rows[0];
-    return new Album(row.id, row.name, row.year);
+    return new Song(
+      row.id,
+      row.title,
+      row.year,
+      row.genre,
+      row.performer,
+      row.duration,
+      row.albumId
+    );
   }
 
   /**
