@@ -8,6 +8,9 @@ const albums = require("./api/albums");
 const AlbumService = require("./services/album.service");
 const AlbumValidator = require("./validators/album");
 const { ClientError } = require("./exceptions");
+const songs = require("./api/songs");
+const SongService = require("./services/song.service");
+const SongValidator = require("./validators/song");
 
 const DEV = process.env.NODE_ENV === "development";
 
@@ -34,16 +37,31 @@ const main = async () => {
   const albumService = new AlbumService(pool);
   const albumValidator = new AlbumValidator();
 
-  await server.register({
-    plugin: albums,
-    options: {
-      service: albumService,
-      validator: albumValidator,
+  const songService = new SongService(pool);
+  const songValidator = new SongValidator();
+
+  await server.register([
+    {
+      plugin: albums,
+      options: {
+        service: albumService,
+        validator: albumValidator,
+      },
+      routes: {
+        prefix: "/albums",
+      },
     },
-    routes: {
-      prefix: "/albums",
+    {
+      plugin: songs,
+      options: {
+        service: songService,
+        validator: songValidator,
+      },
+      routes: {
+        prefix: "/songs",
+      },
     },
-  });
+  ]);
 
   // handle response (error)
   server.ext("onPreResponse", (request, h) => {
