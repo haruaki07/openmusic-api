@@ -18,10 +18,10 @@ const main = async () => {
   // init database pool
   const pool = new Pool({
     user: process.env.PGUSER,
-    password: process.env.PGPASS,
+    password: process.env.PGPASSWORD,
     host: process.env.PGHOST,
     port: process.env.PGPORT,
-    database: process.env.PGDB,
+    database: process.env.PGDATABASE,
   });
 
   const server = Hapi.server({
