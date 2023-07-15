@@ -5,7 +5,7 @@ require("dotenv/config");
 const { Pool } = require("pg");
 const Yup = require("yup");
 const albums = require("./api/albums");
-const AlbumService = require("./services/album");
+const AlbumService = require("./services/album.service");
 const AlbumValidator = require("./validators/album");
 const { ClientError } = require("./exceptions");
 
@@ -47,7 +47,7 @@ const main = async () => {
 
   // handle response (error)
   server.ext("onPreResponse", (request, h) => {
-    /** @type {{response: unknown}} */
+    /** @type {{ response: unknown }} */
     let { response } = request;
 
     if (response instanceof Error) {
@@ -72,6 +72,7 @@ const main = async () => {
       }
 
       // unknown server error
+      console.error(response);
       const newResponse = h.response({
         status: "error",
         message: "Terjadi kesalahan pada server kami",
@@ -83,9 +84,11 @@ const main = async () => {
     return h.continue;
   });
 
-  server.events.on("request", (req) => {
+  server.ext("onRequest", (req, h) => {
     // add start milliseconds to app ctx for http log
     req.app._startMs = performance.now();
+
+    return h.continue;
   });
 
   // http logging
@@ -93,11 +96,12 @@ const main = async () => {
     let str = `${new Date().toISOString()} [${req.response.statusCode}] ${
       req.path
     } `;
-    const time = `${(performance.now() - req.app._startMs).toFixed(2)}ms`;
+    const now = performance.now();
+    const time = `${(now - (req.app._startMs ?? now)).toFixed(2)}ms`;
 
     if (process.stdout.isTTY) {
       str +=
-        ".".repeat(process.stdout.columns - str.length - time.length) + " ";
+        ".".repeat(process.stdout.columns - str.length - time.length - 1) + " ";
     }
 
     str += time;

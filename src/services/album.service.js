@@ -1,5 +1,5 @@
-const { CreateAlbumRequest } = require("../models/album");
-const { InvariantError } = require("../exceptions");
+const { CreateAlbumRequest, Album } = require("../models/album");
+const { InvariantError, NotFoundError } = require("../exceptions");
 const { nanoid } = require("nanoid");
 
 class AlbumService {
@@ -19,10 +19,25 @@ class AlbumService {
     const result = await this._pool.query(query);
 
     if (!result.rows?.[0]?.id) {
-      throw new InvariantError("Album gagal ditambahkan");
+      throw new InvariantError("Album gagal ditambahkan!");
     }
 
     return result.rows[0].id;
+  }
+
+  /** @param {string} id */
+  async getAlbumById(id) {
+    const result = await this._pool.query(
+      "SELECT id, name, year FROM albums WHERE id=$1",
+      [id]
+    );
+
+    if (result.rowCount < 1) {
+      throw new NotFoundError("Album tidak ditemukan!");
+    }
+
+    const row = result.rows[0];
+    return new Album(row.id, row.name, row.year);
   }
 }
 

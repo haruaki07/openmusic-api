@@ -1,14 +1,10 @@
 const { CreateAlbumRequest } = require("../../models/album");
 
-/**
- * @typedef {import("@hapi/hapi").Lifecycle.Method} Handler
- *
- */
+/** @typedef {import("@hapi/hapi").Lifecycle.Method} Handler */
 
 class AlbumHandler {
   /**
-   *
-   * @param {import("../../services/album")} albumService
+   * @param {import("../../services/album.service")} albumService
    * @param {import("../../validators/album")} albumValidator
    */
   constructor(albumService, albumValidator) {
@@ -18,8 +14,9 @@ class AlbumHandler {
 
   /**
    * Menambahkan album.
+   *
    * @type {Handler}
-   **/
+   */
   store = async (req, h) => {
     const payload = this._albumValidator.validateAlbumPayload(req.payload);
 
@@ -32,6 +29,25 @@ class AlbumHandler {
       data: { albumId },
     });
     res.code(201);
+
+    return res;
+  };
+
+  /**
+   * Mendapatkan album berdasarkan id.
+   *
+   * @type {Handler}
+   */
+  show = async (req, h) => {
+    const id = req.params.id;
+
+    const album = await this._albumService.getAlbumById(id);
+
+    const res = h.response({
+      message: "success",
+      data: album,
+    });
+    res.code(200);
 
     return res;
   };

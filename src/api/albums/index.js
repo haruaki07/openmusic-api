@@ -3,7 +3,7 @@ const routes = require("./routes");
 
 /**
  * @typedef {{
- *   service: import("../../services/album");
+ *   service: import("../../services/album.service");
  *   validator: import("../../validators/album");
  * }} AlbumPluginOptions
  */

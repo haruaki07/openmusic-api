@@ -1,3 +1,16 @@
+class Album {
+  /**
+   * @param {string} id
+   * @param {string} name
+   * @param {number} year
+   */
+  constructor(id, name, year) {
+    this.id = id;
+    this.name = name;
+    this.year = year;
+  }
+}
+
 class CreateAlbumRequest {
   /**
    * @param {string} name
@@ -10,5 +23,6 @@ class CreateAlbumRequest {
 }
 
 module.exports = {
+  Album,
   CreateAlbumRequest,
 };
