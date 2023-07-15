@@ -3,8 +3,8 @@ const routes = require("./routes");
 
 /**
  * @typedef {{
- *   service: import("../../services/album"),
- *   validator: import("../../validators/album"),
+ *   service: import("../../services/album");
+ *   validator: import("../../validators/album");
  * }} AlbumPluginOptions
  */
 
@@ -12,7 +12,6 @@ const routes = require("./routes");
 const plugin = {
   name: "albums",
   /**
-   *
    * @param {import("@hapi/hapi").Server} server
    * @param {AlbumPluginOptions} param1
    */

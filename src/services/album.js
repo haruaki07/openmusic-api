@@ -3,9 +3,7 @@ const { InvariantError } = require("../exceptions");
 const { nanoid } = require("nanoid");
 
 class AlbumService {
-  /**
-   * @param {import("pg").Pool} pool
-   */
+  /** @param {import("pg").Pool} pool */
   constructor(pool) {
     this._pool = pool;
   }
