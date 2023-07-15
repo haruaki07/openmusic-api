@@ -45,7 +45,7 @@ class AlbumHandler {
 
     const res = h.response({
       status: "success",
-      data: album,
+      data: { album },
     });
     res.code(200);
 
