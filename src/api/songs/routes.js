@@ -7,28 +7,28 @@ const routes = (handler) => [
   {
     method: "POST",
     path: "/",
-    handler: handler.store,
+    handler: handler.store
   },
   {
     method: "GET",
     path: "/",
-    handler: handler.getAll,
+    handler: handler.getAll
   },
   {
     method: "GET",
     path: "/{id}",
-    handler: handler.show,
+    handler: handler.show
   },
   {
     method: "PUT",
     path: "/{id}",
-    handler: handler.update,
+    handler: handler.update
   },
   {
     method: "DELETE",
     path: "/{id}",
-    handler: handler.destroy,
-  },
+    handler: handler.destroy
+  }
 ];
 
 module.exports = routes;

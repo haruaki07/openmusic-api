@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "checkJs": false,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "target": "ESNext",
+    "module": "CommonJS"
+  },
+  "include": ["./src/**/*.js"],
+  "exclude": ["node_modules"]
+}

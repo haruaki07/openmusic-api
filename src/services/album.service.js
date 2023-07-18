@@ -1,4 +1,4 @@
-const { AlbumDetailed, AlbumRequest } = require("../models/album");
+const { AlbumDetailed } = require("../models/album");
 const { SongSimple } = require("../models/song");
 const { InvariantError, NotFoundError } = require("../exceptions");
 const { nanoid } = require("nanoid");
@@ -10,14 +10,14 @@ class AlbumService {
   }
 
   /**
-   * @param {AlbumRequest} param0
+   * @param {import("../models/album").AlbumRequest} param0
    * @returns {Promise<string>}
    */
   async insert({ name, year }) {
     const id = "album-" + nanoid(16);
     const query = {
       text: "INSERT INTO albums(id, name, year) VALUES($1, $2, $3) RETURNING id",
-      values: [id, name, year],
+      values: [id, name, year]
     };
 
     const result = await this._pool.query(query);
@@ -56,12 +56,12 @@ class AlbumService {
 
   /**
    * @param {string} id
-   * @param {AlbumRequest} param1
+   * @param {import("../models/album").AlbumRequest} param1
    */
   async updateById(id, { name, year }) {
     const query = {
       text: `UPDATE albums SET name=$1, year=$2, "updatedAt"=now() WHERE id=$3`,
-      values: [name, year, id],
+      values: [name, year, id]
     };
 
     const result = await this._pool.query(query);
@@ -77,7 +77,7 @@ class AlbumService {
   async deleteById(id) {
     const query = {
       text: `DELETE FROM albums WHERE id=$1`,
-      values: [id],
+      values: [id]
     };
 
     const result = await this._pool.query(query);

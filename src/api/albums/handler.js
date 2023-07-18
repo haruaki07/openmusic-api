@@ -26,7 +26,7 @@ class AlbumHandler {
 
     const res = h.response({
       status: "success",
-      data: { albumId },
+      data: { albumId }
     });
     res.code(201);
 
@@ -45,7 +45,7 @@ class AlbumHandler {
 
     const res = h.response({
       status: "success",
-      data: { album },
+      data: { album }
     });
     res.code(200);
 
@@ -65,7 +65,7 @@ class AlbumHandler {
 
     const res = h.response({
       status: "success",
-      message: "Album berhasil diperbarui!",
+      message: "Album berhasil diperbarui!"
     });
     res.code(200);
 
@@ -84,7 +84,7 @@ class AlbumHandler {
 
     const res = h.response({
       status: "success",
-      message: "Album berhasil dihapus!",
+      message: "Album berhasil dihapus!"
     });
     res.code(200);
 

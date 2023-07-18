@@ -21,7 +21,7 @@ const main = async () => {
     password: process.env.PGPASSWORD,
     host: process.env.PGHOST,
     port: process.env.PGPORT,
-    database: process.env.PGDATABASE,
+    database: process.env.PGDATABASE
   });
 
   const server = Hapi.server({
@@ -29,9 +29,9 @@ const main = async () => {
     host: process.env.HOST || DEV ? "localhost" : "0.0.0.0",
     routes: {
       cors: {
-        origin: ["*"],
-      },
-    },
+        origin: ["*"]
+      }
+    }
   });
 
   const albumService = new AlbumService(pool);
@@ -45,25 +45,24 @@ const main = async () => {
       plugin: albums,
       options: {
         service: albumService,
-        validator: albumValidator,
+        validator: albumValidator
       },
       routes: {
-        prefix: "/albums",
-      },
+        prefix: "/albums"
+      }
     },
     {
       plugin: songs,
       options: {
         service: songService,
-        validator: songValidator,
+        validator: songValidator
       },
       routes: {
-        prefix: "/songs",
-      },
-    },
+        prefix: "/songs"
+      }
+    }
   ]);
 
-  // handle response (error)
   server.ext("onPreResponse", (request, h) => {
     /** @type {{ response: unknown }} */
     let { response } = request;
@@ -78,7 +77,7 @@ const main = async () => {
       if (response instanceof ClientError) {
         const newResponse = h.response({
           status: "fail",
-          message: response.message,
+          message: response.message
         });
         newResponse.code(response.statusCode);
         return newResponse;
@@ -93,7 +92,7 @@ const main = async () => {
       console.error(response);
       const newResponse = h.response({
         status: "error",
-        message: "Terjadi kesalahan pada server kami",
+        message: "Terjadi kesalahan pada server kami"
       });
       newResponse.code(500);
       return newResponse;

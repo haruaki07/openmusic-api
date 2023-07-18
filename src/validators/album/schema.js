@@ -1,6 +1,10 @@
 const Yup = require("yup");
 
-exports.albumPayloadSchema = Yup.object({
+const albumPayloadSchema = Yup.object({
   name: Yup.string().required(),
-  year: Yup.number().required(),
+  year: Yup.number().required()
 });
+
+module.exports = {
+  albumPayloadSchema
+};

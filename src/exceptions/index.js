@@ -5,5 +5,5 @@ const NotFoundError = require("./NotFoundError");
 module.exports = {
   ClientError,
   InvariantError,
-  NotFoundError,
+  NotFoundError
 };

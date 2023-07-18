@@ -1,4 +1,4 @@
-const { SongRequest, SongFilterQuery } = require("../../models/song");
+const { SongRequest } = require("../../models/song");
 
 /** @typedef {import("@hapi/hapi").Lifecycle.Method} Handler */
 
@@ -33,7 +33,7 @@ class SongHandler {
 
     const res = h.response({
       status: "success",
-      data: { songId },
+      data: { songId }
     });
     res.code(201);
 
@@ -51,7 +51,7 @@ class SongHandler {
 
     const res = h.response({
       status: "success",
-      data: { songs },
+      data: { songs }
     });
     res.code(200);
 
@@ -70,7 +70,7 @@ class SongHandler {
 
     const res = h.response({
       status: "success",
-      data: { song },
+      data: { song }
     });
     res.code(200);
 
@@ -100,7 +100,7 @@ class SongHandler {
 
     const res = h.response({
       status: "success",
-      message: "Lagu berhasil diperbarui!",
+      message: "Lagu berhasil diperbarui!"
     });
     res.code(200);
 
@@ -119,7 +119,7 @@ class SongHandler {
 
     const res = h.response({
       status: "success",
-      message: "Lagu berhasil dihapus!",
+      message: "Lagu berhasil dihapus!"
     });
     res.code(200);
 

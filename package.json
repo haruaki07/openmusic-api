@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "prepare": "husky install",
     "start": "cross-env NODE_ENV=production node src/server.js",
     "dev": "cross-env NODE_ENV=development nodemon -w ./src src/server.js",
-    "migrate": "node ./scripts/migrate.js"
+    "migrate": "node ./scripts/migrate.js",
+    "lint": "eslint --max-warnings 2 ./src/**/*",
+    "format": "prettier -w ./src/**/*"
   },
   "dependencies": {
     "@hapi/hapi": "^21.3.2",
@@ -16,6 +19,11 @@
     "yup": "^1.2.0"
   },
   "devDependencies": {
+    "@shopify/eslint-plugin": "^42.1.0",
+    "@teknologi-umum/eslint-config-base": "^0.0.11",
+    "eslint": "^8.45.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "husky": "^8.0.0",
     "node-pg-migrate": "^6.2.2",
     "nodemon": "^3.0.1",
     "prettier": "^2.8.8",

@@ -66,5 +66,5 @@ module.exports = {
   Song,
   SongFilterQuery,
   SongRequest,
-  SongSimple,
+  SongSimple
 };

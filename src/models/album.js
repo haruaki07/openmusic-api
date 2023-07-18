@@ -38,5 +38,5 @@ class AlbumDetailed extends Album {
 module.exports = {
   Album,
   AlbumDetailed,
-  AlbumRequest,
+  AlbumRequest
 };

@@ -1,4 +1,4 @@
-const { SongRequest, Song, SongSimple } = require("../models/song");
+const { Song, SongSimple } = require("../models/song");
 const { InvariantError, NotFoundError } = require("../exceptions");
 const { nanoid } = require("nanoid");
 
@@ -9,7 +9,7 @@ class SongService {
   }
 
   /**
-   * @param {SongRequest} param0
+   * @param {import("../models/song").SongRequest} param0
    * @returns {Promise<string>}
    */
   async insert({ title, year, genre, performer, duration, albumId }) {
@@ -22,7 +22,7 @@ VALUES
   ($1, $2, $3, $4, $5, $6, $7) 
 RETURNING 
   id`,
-      values: [id, title, year, genre, performer, duration, albumId],
+      values: [id, title, year, genre, performer, duration, albumId]
     };
 
     const result = await this._pool.query(query);
@@ -34,11 +34,10 @@ RETURNING
     return result.rows[0].id;
   }
 
-  /** @param {import("../models/song").SongFilterQuery} filter */
   async findAll(filter = {}) {
     const q = {
       text: "SELECT id, title, performer FROM songs",
-      values: [],
+      values: []
     };
 
     const filterKeys = filter ? Object.keys(filter) : [];
@@ -58,7 +57,7 @@ RETURNING
   /** @param {string} id */
   async findById(id) {
     const result = await this._pool.query("SELECT * FROM songs WHERE id=$1", [
-      id,
+      id
     ]);
 
     if (result.rowCount < 1) {
@@ -79,7 +78,7 @@ RETURNING
 
   /**
    * @param {string} id
-   * @param {SongRequest} payload
+   * @param {import("../models/song").SongRequest} payload
    */
   async updateById(id, payload) {
     const query = {
@@ -97,8 +96,8 @@ WHERE
         payload.genre,
         payload.performer,
         payload.duration,
-        payload.albumId,
-      ],
+        payload.albumId
+      ]
     };
 
     const result = await this._pool.query(query);
@@ -111,8 +110,8 @@ WHERE
   /** @param {string} id */
   async deleteById(id) {
     const query = {
-      text: `DELETE FROM songs WHERE id=$1`,
-      values: [id],
+      text: "DELETE FROM songs WHERE id=$1",
+      values: [id]
     };
 
     const result = await this._pool.query(query);

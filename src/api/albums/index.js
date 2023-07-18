@@ -15,10 +15,10 @@ const plugin = {
    * @param {import("@hapi/hapi").Server} server
    * @param {AlbumPluginOptions} param1
    */
-  register: async (server, { service, validator }) => {
+  register: (server, { service, validator }) => {
     const albumHandler = new AlbumHandler(service, validator);
     server.route(routes(albumHandler));
-  },
+  }
 };
 
 module.exports = plugin;
