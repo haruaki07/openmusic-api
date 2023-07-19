@@ -20,6 +20,9 @@ const UserValidator = require("./validators/user");
 const auth = require("./api/auth");
 const AuthService = require("./services/auth.service");
 const AuthValidator = require("./validators/auth");
+const playlist = require("./api/playlist");
+const PlaylistService = require("./services/playlist.service");
+const PlaylistValidator = require("./validators/playlist");
 
 const DEV = process.env.NODE_ENV === "development";
 
@@ -54,6 +57,9 @@ const main = async () => {
 
   const authService = new AuthService(pool);
   const authValidator = new AuthValidator();
+
+  const playlistService = new PlaylistService(pool);
+  const playlistValidator = new PlaylistValidator();
 
   await server.register([
     {
@@ -118,6 +124,16 @@ const main = async () => {
       },
       routes: {
         prefix: "/authentications"
+      }
+    },
+    {
+      plugin: playlist,
+      options: {
+        service: playlistService,
+        validator: playlistValidator
+      },
+      routes: {
+        prefix: "/playlists"
       }
     }
   ]);
