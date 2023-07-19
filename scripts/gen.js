@@ -226,12 +226,12 @@ async function genService(name) {
   const fileName = `${name}.service.js`;
   const content = `
 class ${className} {
-#pool;
+  #pool;
 
-/** @param {import("pg").Pool} pool */
-constructor(pool) {
-this.#pool = pool;
-}
+  /** @param {import("pg").Pool} pool */
+  constructor(pool) {
+    this.#pool = pool;
+  }
 }
 
 module.exports = ${className}`;
