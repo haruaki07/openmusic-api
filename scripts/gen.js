@@ -152,6 +152,12 @@ async function genModel(name) {
   const content = `class ${className} {
   /** @type {string} */
   id;
+
+  /** @type {Date} */
+  createdAt;
+
+  /** @type {Date} */
+  updatedAt;
 }
 
 class ${reqClassName} {
