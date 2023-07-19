@@ -1,16 +1,25 @@
 "use strict";
+require("dotenv/config");
 const { performance } = require("perf_hooks");
 const Hapi = require("@hapi/hapi");
-require("dotenv/config");
 const { Pool } = require("pg");
 const Yup = require("yup");
+const Jwt = require("@hapi/jwt");
+
+require("../bootstrap");
+const { ClientError } = require("./exceptions");
 const albums = require("./api/albums");
 const AlbumService = require("./services/album.service");
 const AlbumValidator = require("./validators/album");
-const { ClientError } = require("./exceptions");
 const songs = require("./api/songs");
 const SongService = require("./services/song.service");
 const SongValidator = require("./validators/song");
+const users = require("./api/users");
+const UserService = require("./services/user.service");
+const UserValidator = require("./validators/user");
+const auth = require("./api/auth");
+const AuthService = require("./services/auth.service");
+const AuthValidator = require("./validators/auth");
 
 const DEV = process.env.NODE_ENV === "development";
 
@@ -40,6 +49,35 @@ const main = async () => {
   const songService = new SongService(pool);
   const songValidator = new SongValidator();
 
+  const userService = new UserService(pool);
+  const userValidator = new UserValidator();
+
+  const authService = new AuthService(pool);
+  const authValidator = new AuthValidator();
+
+  await server.register([
+    {
+      plugin: Jwt
+    }
+  ]);
+
+  // register jwt auth strategy
+  server.auth.strategy("api_jwt", "jwt", {
+    keys: process.env.ACCESS_TOKEN_KEY,
+    verify: {
+      aud: false,
+      iss: false,
+      sub: false,
+      maxAgeSec: process.env.ACCESS_TOKEN_AGE
+    },
+    validate: (artifacts) => ({
+      isValid: true,
+      credentials: {
+        userId: artifacts.decoded.payload.userId
+      }
+    })
+  });
+
   await server.register([
     {
       plugin: albums,
@@ -59,6 +97,27 @@ const main = async () => {
       },
       routes: {
         prefix: "/songs"
+      }
+    },
+    {
+      plugin: users,
+      options: {
+        service: userService,
+        validator: userValidator
+      },
+      routes: {
+        prefix: "/users"
+      }
+    },
+    {
+      plugin: auth,
+      options: {
+        authService,
+        userService,
+        validator: authValidator
+      },
+      routes: {
+        prefix: "/authentications"
       }
     }
   ]);

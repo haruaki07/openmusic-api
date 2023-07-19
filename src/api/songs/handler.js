@@ -1,11 +1,11 @@
-const { SongRequest } = require("../../models/song");
+const { SongRequest } = require("@/models/song");
 
 /** @typedef {import("@hapi/hapi").Lifecycle.Method} Handler */
 
 class SongHandler {
   /**
-   * @param {import("../../services/song.service")} songService
-   * @param {import("../../validators/song")} songValidator
+   * @param {import("@/services/song.service")} songService
+   * @param {import("@/validators/song")} songValidator
    */
   constructor(songService, songValidator) {
     this._songService = songService;

@@ -1,6 +1,6 @@
-const { AlbumDetailed } = require("../models/album");
-const { SongSimple } = require("../models/song");
-const { InvariantError, NotFoundError } = require("../exceptions");
+const { AlbumDetailed } = require("@/models/album");
+const { SongSimple } = require("@/models/song");
+const { InvariantError, NotFoundError } = require("@/exceptions");
 const { nanoid } = require("nanoid");
 
 class AlbumService {
@@ -10,7 +10,7 @@ class AlbumService {
   }
 
   /**
-   * @param {import("../models/album").AlbumRequest} param0
+   * @param {import("@/models/album").AlbumRequest} param0
    * @returns {Promise<string>}
    */
   async insert({ name, year }) {
@@ -56,7 +56,7 @@ class AlbumService {
 
   /**
    * @param {string} id
-   * @param {import("../models/album").AlbumRequest} param1
+   * @param {import("@/models/album").AlbumRequest} param1
    */
   async updateById(id, { name, year }) {
     const query = {

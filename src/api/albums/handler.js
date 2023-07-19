@@ -1,11 +1,11 @@
-const { AlbumRequest } = require("../../models/album");
+const { AlbumRequest } = require("@/models/album");
 
 /** @typedef {import("@hapi/hapi").Lifecycle.Method} Handler */
 
 class AlbumHandler {
   /**
-   * @param {import("../../services/album.service")} albumService
-   * @param {import("../../validators/album")} albumValidator
+   * @param {import("@/services/album.service")} albumService
+   * @param {import("@/validators/album")} albumValidator
    */
   constructor(albumService, albumValidator) {
     this._albumService = albumService;

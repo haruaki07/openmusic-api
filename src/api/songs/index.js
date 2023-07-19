@@ -3,8 +3,8 @@ const routes = require("./routes");
 
 /**
  * @typedef {{
- *   service: import("../../services/song.service");
- *   validator: import("../../validators/song");
+ *   service: import("@/services/song.service");
+ *   validator: import("@/validators/song");
  * }} SongPluginOptions
  */
 

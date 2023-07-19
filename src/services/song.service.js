@@ -1,5 +1,5 @@
-const { Song, SongSimple } = require("../models/song");
-const { InvariantError, NotFoundError } = require("../exceptions");
+const { Song, SongSimple } = require("@/models/song");
+const { InvariantError, NotFoundError } = require("@/exceptions");
 const { nanoid } = require("nanoid");
 
 class SongService {
@@ -9,7 +9,7 @@ class SongService {
   }
 
   /**
-   * @param {import("../models/song").SongRequest} param0
+   * @param {import("@/models/song").SongRequest} param0
    * @returns {Promise<string>}
    */
   async insert({ title, year, genre, performer, duration, albumId }) {
@@ -78,7 +78,7 @@ RETURNING
 
   /**
    * @param {string} id
-   * @param {import("../models/song").SongRequest} payload
+   * @param {import("@/models/song").SongRequest} payload
    */
   async updateById(id, payload) {
     const query = {
