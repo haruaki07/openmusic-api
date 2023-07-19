@@ -4,7 +4,11 @@
     "resolveJsonModule": true,
     "moduleResolution": "node",
     "target": "ESNext",
-    "module": "CommonJS"
+    "module": "CommonJS",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["./src/**/*.js"],
   "exclude": ["node_modules"]
