@@ -37,10 +37,12 @@ SELECT
   p.id, p.name, u.username 
 FROM 
   playlists p
+JOIN playlist_collabs pc
+  ON pc."userId" = $1
 JOIN users u
   ON u.id = p.owner
 WHERE 
-  p.owner = $1`,
+  p.owner = $1 OR p.id = pc."playlistId"`,
       [userId]
     );
 
