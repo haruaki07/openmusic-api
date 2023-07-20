@@ -34,8 +34,14 @@ class PlaylistResponse {
   username;
 }
 
+class PlaylistSongsResponse extends PlaylistResponse {
+  /** @type {import("./song").SongSimple} */
+  songs;
+}
+
 module.exports = {
   Playlist,
   PlaylistRequest,
-  PlaylistResponse
+  PlaylistResponse,
+  PlaylistSongsResponse
 };

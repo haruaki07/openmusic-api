@@ -15,6 +15,18 @@ const routes = (handler) => [
     path: "/",
     handler: handler.index,
     options: { auth: "api_jwt" }
+  },
+  {
+    method: "POST",
+    path: "/{id}/songs",
+    handler: handler.addSong,
+    options: { auth: "api_jwt" }
+  },
+  {
+    method: "GET",
+    path: "/{id}/songs",
+    handler: handler.songs,
+    options: { auth: "api_jwt" }
   }
 ];
 

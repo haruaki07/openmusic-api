@@ -129,7 +129,8 @@ const main = async () => {
     {
       plugin: playlist,
       options: {
-        service: playlistService,
+        playlistService,
+        songService,
         validator: playlistValidator
       },
       routes: {

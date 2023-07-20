@@ -120,6 +120,17 @@ WHERE
       throw new NotFoundError("Gagal menghapus lagu! Lagu tidak ditemukan.");
     }
   }
+
+  /** @param {string} id */
+  async verifySongExist(id) {
+    const result = await this._pool.query("SELECT id FROM songs WHERE id=$1", [
+      id
+    ]);
+
+    if (result.rowCount < 1) throw new NotFoundError("Lagu tidak ditemukan!");
+
+    return result.rows[0].id;
+  }
 }
 
 module.exports = SongService;

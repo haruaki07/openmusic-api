@@ -1,6 +1,7 @@
 /**
  * @typedef {{
- *   service: import("@/services/playlist.service");
+ *   songService: import("@/services/song.service");
+ *   playlistService: import("@/services/playlist.service");
  *   validator: import("@/validators/playlist");
  * }} PlaylistPluginOptions
  */
@@ -15,8 +16,12 @@ const playlistsPlugin = {
    * @param {import("@hapi/hapi").Server} server
    * @param {PlaylistPluginOptions} param1
    */
-  register: (server, { service, validator }) => {
-    const handler = new PlaylistHandler(service, validator);
+  register: (server, { playlistService, songService, validator }) => {
+    const handler = new PlaylistHandler(
+      playlistService,
+      songService,
+      validator
+    );
     server.route(routes(handler));
   }
 };
