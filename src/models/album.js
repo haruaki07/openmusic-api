@@ -1,38 +1,31 @@
 class Album {
-  /**
-   * @param {string} id
-   * @param {string} name
-   * @param {number} year
-   */
-  constructor(id, name, year) {
-    this.id = id;
-    this.name = name;
-    this.year = year;
-  }
+  /** @type {string} */
+  id;
+
+  /** @type {string} */
+  name;
+
+  /** @type {number} */
+  year;
+
+  /** @type {Date} */
+  createdAt;
+
+  /** @type {Date} */
+  updatedAt;
 }
 
 class AlbumRequest {
-  /**
-   * @param {string} name
-   * @param {number} year
-   */
-  constructor(name, year) {
-    this.name = name;
-    this.year = year;
-  }
+  /** @type {string} */
+  name;
+
+  /** @type {number} */
+  year;
 }
 
 class AlbumDetailed extends Album {
-  /**
-   * @param {string} id
-   * @param {string} name
-   * @param {number} year
-   * @param {import("./song").SongResponse[]} songs
-   */
-  constructor(id, name, year, songs) {
-    super(id, name, year);
-    this.songs = songs;
-  }
+  /** @type {import("./song").SongResponse[]} */
+  songs;
 }
 
 module.exports = {

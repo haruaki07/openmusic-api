@@ -2,6 +2,7 @@ const { AlbumDetailed } = require("@/models/album");
 const { SongResponse } = require("@/models/song");
 const { InvariantError, NotFoundError } = require("@/exceptions");
 const { nanoid } = require("nanoid");
+const { plainToClass } = require("@/utils");
 
 class AlbumService {
   /** @param {import("pg").Pool} pool */
@@ -47,11 +48,9 @@ class AlbumService {
       `SELECT id, title, performer FROM songs WHERE "albumId"=$1`,
       [row.id]
     );
-    const songs = resSongs.rows.map(
-      (r) => new SongResponse(r.id, r.title, r.performer)
-    );
+    const songs = resSongs.rows.map((r) => plainToClass(r, SongResponse));
 
-    return new AlbumDetailed(row.id, row.name, row.year, songs);
+    return plainToClass({ ...row, songs }, AlbumDetailed);
   }
 
   /**

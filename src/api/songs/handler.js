@@ -1,5 +1,3 @@
-const { SongRequest } = require("@/models/song");
-
 /** @typedef {import("@hapi/hapi").Lifecycle.Method} Handler */
 
 class SongHandler {
@@ -20,16 +18,7 @@ class SongHandler {
   store = async (req, h) => {
     const payload = this._songValidator.validateSongPayload(req.payload);
 
-    const songId = await this._songService.insert(
-      new SongRequest(
-        payload.title,
-        payload.year,
-        payload.genre,
-        payload.performer,
-        payload.duration,
-        payload.albumId
-      )
-    );
+    const songId = await this._songService.insert(payload);
 
     const res = h.response({
       status: "success",
@@ -86,17 +75,7 @@ class SongHandler {
     const id = req.params.id;
     const payload = this._songValidator.validateSongPayload(req.payload);
 
-    await this._songService.updateById(
-      id,
-      new SongRequest(
-        payload.title,
-        payload.year,
-        payload.genre,
-        payload.performer,
-        payload.duration,
-        payload.albumId
-      )
-    );
+    await this._songService.updateById(id, payload);
 
     const res = h.response({
       status: "success",

@@ -1,6 +1,7 @@
 const { Song, SongResponse } = require("@/models/song");
 const { InvariantError, NotFoundError } = require("@/exceptions");
 const { nanoid } = require("nanoid");
+const { plainToClass } = require("@/utils");
 
 class SongService {
   /** @param {import("pg").Pool} pool */
@@ -51,7 +52,7 @@ RETURNING
     }
 
     const result = await this._pool.query(q);
-    return result.rows.map((r) => new SongResponse(r.id, r.title, r.performer));
+    return result.rows.map((r) => plainToClass(r, SongResponse));
   }
 
   /** @param {string} id */
@@ -65,15 +66,7 @@ RETURNING
     }
 
     const row = result.rows[0];
-    return new Song(
-      row.id,
-      row.title,
-      row.year,
-      row.genre,
-      row.performer,
-      row.duration,
-      row.albumId
-    );
+    return plainToClass(row, Song);
   }
 
   /**

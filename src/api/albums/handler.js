@@ -1,5 +1,3 @@
-const { AlbumRequest } = require("@/models/album");
-
 /** @typedef {import("@hapi/hapi").Lifecycle.Method} Handler */
 
 class AlbumHandler {
@@ -20,9 +18,7 @@ class AlbumHandler {
   store = async (req, h) => {
     const payload = this._albumValidator.validateAlbumPayload(req.payload);
 
-    const albumId = await this._albumService.insert(
-      new AlbumRequest(payload.name, payload.year)
-    );
+    const albumId = await this._albumService.insert(payload);
 
     const res = h.response({
       status: "success",

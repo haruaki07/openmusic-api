@@ -10,7 +10,6 @@ class SongValidator {
     return value;
   }
 
-  /** @param {import("@/models/song").SongFilterQuery} query */
   validateSongFilter(query) {
     const value = songFilterSchema.validateSync(query, { stripUnknown: true });
     return value;
