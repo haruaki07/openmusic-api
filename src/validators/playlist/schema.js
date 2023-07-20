@@ -4,11 +4,11 @@ const playlistPayloadSchema = Yup.object({
   name: Yup.string().required().strict()
 });
 
-const playlistAddSongSchema = Yup.object({
+const playlistSongPayloadSchema = Yup.object({
   songId: Yup.string().required().strict()
 });
 
 module.exports = {
   playlistPayloadSchema,
-  playlistAddSongSchema
+  playlistSongPayloadSchema
 };

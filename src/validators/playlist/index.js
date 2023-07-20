@@ -1,5 +1,8 @@
 const { ClientError } = require("@/exceptions");
-const { playlistPayloadSchema, playlistAddSongSchema } = require("./schema");
+const {
+  playlistPayloadSchema,
+  playlistSongPayloadSchema
+} = require("./schema");
 
 class PlaylistValidator {
   /** @param {import("@/models/playlist").PlaylistRequest} payload */
@@ -10,10 +13,10 @@ class PlaylistValidator {
     return value;
   }
 
-  validateAddSongSchema(payload) {
+  validatePlaylistSongPayload(payload) {
     if (!payload) throw new ClientError("Body tidak boleh kosong");
 
-    return playlistAddSongSchema.validateSync(payload);
+    return playlistSongPayloadSchema.validateSync(payload);
   }
 }
 

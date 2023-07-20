@@ -27,6 +27,12 @@ const routes = (handler) => [
     path: "/{id}/songs",
     handler: handler.songs,
     options: { auth: "api_jwt" }
+  },
+  {
+    method: "DELETE",
+    path: "/{id}/songs",
+    handler: handler.deleteSong,
+    options: { auth: "api_jwt" }
   }
 ];
 

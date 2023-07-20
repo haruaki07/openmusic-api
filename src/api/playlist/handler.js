@@ -64,7 +64,7 @@ class PlaylistHandler {
    */
   addSong = async (req, h) => {
     const { userId } = req.auth.credentials;
-    const { songId } = this._playlistValidator.validateAddSongSchema(
+    const { songId } = this._playlistValidator.validatePlaylistSongPayload(
       req.payload
     );
     const playlistId = req.params.id;
@@ -104,6 +104,31 @@ class PlaylistHandler {
       data: {
         playlist: playlistSongs
       }
+    });
+    res.code(200);
+
+    return res;
+  };
+
+  /**
+   * Menghapus lagu dari playlist.
+   *
+   * @type {Handler}
+   */
+  deleteSong = async (req, h) => {
+    const { userId } = req.auth.credentials;
+    const id = req.params.id;
+
+    const { songId } = this._playlistValidator.validatePlaylistSongPayload(
+      req.payload
+    );
+
+    await this._playlistService.verifyPlaylistOwner({ id, userId });
+    await this._playlistService.deletePlaylistSong({ songId, playlistId: id });
+
+    const res = h.response({
+      status: "success",
+      message: "Lagu berhasil dihapus dari playlist!"
     });
     res.code(200);
 

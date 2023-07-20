@@ -112,6 +112,23 @@ WHERE
     );
     return playlistSongs;
   }
+
+  /** @param {{ songId: string; playlistId: string }} param0 */
+  async deletePlaylistSong({ songId, playlistId }) {
+    const result = await this.#pool.query(
+      `
+DELETE FROM 
+  playlist_songs 
+WHERE 
+  "songId" = $1 AND "playlistId" = $2`,
+      [songId, playlistId]
+    );
+
+    if (result.rowCount < 1)
+      throw new NotFoundError(
+        "Gagal menghapus lagu! Lagu tidak ditemukan dalam playlist."
+      );
+  }
 }
 
 module.exports = PlaylistService;
