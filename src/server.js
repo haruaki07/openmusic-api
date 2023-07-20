@@ -137,6 +137,7 @@ const main = async () => {
       options: {
         playlistService,
         songService,
+        collabService,
         validator: playlistValidator
       },
       routes: {

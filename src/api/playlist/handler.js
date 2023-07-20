@@ -4,11 +4,13 @@ class PlaylistHandler {
   /**
    * @param {import("@/services/playlist.service")} playlistService
    * @param {import("@/services/song.service")} songService
+   * @param {import("@/services/collab.service")} collabService
    * @param {import("@/validators/playlist")} playlistValidator
    */
-  constructor(playlistService, songService, playlistValidator) {
+  constructor(playlistService, songService, collabService, playlistValidator) {
     this._playlistService = playlistService;
     this._songService = songService;
+    this._collabService = collabService;
     this._playlistValidator = playlistValidator;
   }
 
@@ -69,7 +71,18 @@ class PlaylistHandler {
     );
     const playlistId = req.params.id;
 
-    await this._playlistService.verifyPlaylistOwner({ id: playlistId, userId });
+    try {
+      await this._playlistService.verifyPlaylistOwner({
+        id: playlistId,
+        userId
+      });
+    } catch {
+      await this._collabService.verifyPlaylistCollaborator({
+        playlistId,
+        userId
+      });
+    }
+
     await this._songService.verifySongExist(songId);
 
     await this._playlistService.insertSong({
@@ -95,7 +108,14 @@ class PlaylistHandler {
     const { userId } = req.auth.credentials;
     const id = req.params.id;
 
-    await this._playlistService.verifyPlaylistOwner({ id, userId });
+    try {
+      await this._playlistService.verifyPlaylistOwner({ id, userId });
+    } catch {
+      await this._collabService.verifyPlaylistCollaborator({
+        playlistId: id,
+        userId
+      });
+    }
 
     const playlistSongs = await this._playlistService.findPlaylistSongs(id);
 
@@ -123,7 +143,15 @@ class PlaylistHandler {
       req.payload
     );
 
-    await this._playlistService.verifyPlaylistOwner({ id, userId });
+    try {
+      await this._playlistService.verifyPlaylistOwner({ id, userId });
+    } catch {
+      await this._collabService.verifyPlaylistCollaborator({
+        playlistId: id,
+        userId
+      });
+    }
+
     await this._playlistService.deletePlaylistSong({ songId, playlistId: id });
 
     const res = h.response({

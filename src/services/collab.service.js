@@ -1,4 +1,5 @@
-const { InvariantError } = require("@/exceptions");
+const { InvariantError, NotFoundError } = require("@/exceptions");
+const AuthorizationError = require("@/exceptions/AuthorizationError");
 const { createId } = require("@/utils");
 
 class CollabService {
@@ -26,6 +27,20 @@ RETURNING id`,
       throw new InvariantError("Kolaborator gagal ditambahkan!");
 
     return result.rows[0].id;
+  }
+
+  /** @param {{ playlistId: string; userId: string }} param0 */
+  async verifyPlaylistCollaborator({ playlistId, userId }) {
+    const result = await this.#pool.query(
+      `SELECT "userId" FROM playlist_collabs WHERE "playlistId" = $1`,
+      [playlistId]
+    );
+
+    if (result.rowCount < 1)
+      throw new NotFoundError("Playlist tidak ditemukan!");
+
+    if (result.rows[0].userId !== userId)
+      throw new AuthorizationError("Anda tidak berhak mengakses resource ini!");
   }
 }
 
