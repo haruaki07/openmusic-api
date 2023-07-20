@@ -1,7 +1,6 @@
 const { InvariantError } = require("@/exceptions");
 const AuthenticationError = require("@/exceptions/AuthenticationError");
-const { User } = require("@/models/user");
-const { createId, plainToClass } = require("@/utils");
+const { createId } = require("@/utils");
 const bcrypt = require("bcrypt");
 
 class UserService {

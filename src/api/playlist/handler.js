@@ -1,7 +1,5 @@
 /** @typedef {import("@hapi/hapi").Lifecycle.Method} Handler */
 
-const { InvariantError } = require("@/exceptions");
-
 class PlaylistHandler {
   /**
    * @param {import("@/services/playlist.service")} playlistService
