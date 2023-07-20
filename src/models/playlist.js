@@ -35,7 +35,7 @@ class PlaylistResponse {
 }
 
 class PlaylistSongsResponse extends PlaylistResponse {
-  /** @type {import("./song").SongSimple} */
+  /** @type {import("./song").SongResponse} */
   songs;
 }
 

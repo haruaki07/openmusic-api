@@ -38,7 +38,7 @@ class SongRequest {
   }
 }
 
-class SongSimple {
+class SongResponse {
   /**
    * @param {id} title
    * @param {string} title
@@ -66,5 +66,5 @@ module.exports = {
   Song,
   SongFilterQuery,
   SongRequest,
-  SongSimple
+  SongResponse
 };

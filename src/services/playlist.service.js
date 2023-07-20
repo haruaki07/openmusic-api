@@ -4,7 +4,7 @@ const {
   PlaylistResponse,
   PlaylistSongsResponse
 } = require("@/models/playlist");
-const { SongSimple } = require("@/models/song");
+const { SongResponse } = require("@/models/song");
 const { createId, plainToClass } = require("@/utils");
 
 class PlaylistService {
@@ -104,7 +104,7 @@ WHERE
       [playlist.id]
     );
 
-    const songs = songsResult.rows.map((s) => plainToClass(s, SongSimple));
+    const songs = songsResult.rows.map((s) => plainToClass(s, SongResponse));
 
     const playlistSongs = plainToClass(
       { ...playlist, songs },

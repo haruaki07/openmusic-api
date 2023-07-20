@@ -27,7 +27,7 @@ class AlbumDetailed extends Album {
    * @param {string} id
    * @param {string} name
    * @param {number} year
-   * @param {import("./song").SongSimple[]} songs
+   * @param {import("./song").SongResponse[]} songs
    */
   constructor(id, name, year, songs) {
     super(id, name, year);

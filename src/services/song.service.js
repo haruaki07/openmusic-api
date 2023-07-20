@@ -1,4 +1,4 @@
-const { Song, SongSimple } = require("@/models/song");
+const { Song, SongResponse } = require("@/models/song");
 const { InvariantError, NotFoundError } = require("@/exceptions");
 const { nanoid } = require("nanoid");
 
@@ -51,7 +51,7 @@ RETURNING
     }
 
     const result = await this._pool.query(q);
-    return result.rows.map((r) => new SongSimple(r.id, r.title, r.performer));
+    return result.rows.map((r) => new SongResponse(r.id, r.title, r.performer));
   }
 
   /** @param {string} id */

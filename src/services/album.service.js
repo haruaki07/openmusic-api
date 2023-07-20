@@ -1,5 +1,5 @@
 const { AlbumDetailed } = require("@/models/album");
-const { SongSimple } = require("@/models/song");
+const { SongResponse } = require("@/models/song");
 const { InvariantError, NotFoundError } = require("@/exceptions");
 const { nanoid } = require("nanoid");
 
@@ -48,7 +48,7 @@ class AlbumService {
       [row.id]
     );
     const songs = resSongs.rows.map(
-      (r) => new SongSimple(r.id, r.title, r.performer)
+      (r) => new SongResponse(r.id, r.title, r.performer)
     );
 
     return new AlbumDetailed(row.id, row.name, row.year, songs);
