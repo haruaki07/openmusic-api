@@ -120,13 +120,27 @@ WHERE
 DELETE FROM 
   playlist_songs 
 WHERE 
-  "songId" = $1 AND "playlistId" = $2`,
+  "songId" = $1 AND "playlistId" = $2
+RETURNING "songId"`,
       [songId, playlistId]
     );
 
     if (result.rowCount < 1)
       throw new NotFoundError(
         "Gagal menghapus lagu! Lagu tidak ditemukan dalam playlist."
+      );
+  }
+
+  /** @param {string} id */
+  async deleteById(id) {
+    const result = await this.#pool.query(
+      "DELETE FROM playlists WHERE id = $1 RETURNING id",
+      [id]
+    );
+
+    if (result.rowCount < 1)
+      throw new NotFoundError(
+        "Playlist gagal dihapus! playlist tidak ditemukan."
       );
   }
 }

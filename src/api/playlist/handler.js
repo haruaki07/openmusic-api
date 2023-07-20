@@ -134,6 +134,27 @@ class PlaylistHandler {
 
     return res;
   };
+
+  /**
+   * Menghapus playlist.
+   *
+   * @type {Handler}
+   */
+  destroy = async (req, h) => {
+    const { userId } = req.auth.credentials;
+    const id = req.params.id;
+
+    await this._playlistService.verifyPlaylistOwner({ id, userId });
+    await this._playlistService.deleteById(id);
+
+    const res = h.response({
+      status: "success",
+      message: "Playlist berhasil dihapus!"
+    });
+    res.code(200);
+
+    return res;
+  };
 }
 
 module.exports = PlaylistHandler;
