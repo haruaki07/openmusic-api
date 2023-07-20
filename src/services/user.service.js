@@ -1,4 +1,4 @@
-const { InvariantError } = require("@/exceptions");
+const { InvariantError, NotFoundError } = require("@/exceptions");
 const AuthenticationError = require("@/exceptions/AuthenticationError");
 const { createId } = require("@/utils");
 const bcrypt = require("bcrypt");
@@ -67,6 +67,15 @@ VALUES
       throw new AuthenticationError("Kredensial yang Anda berikan salah!");
 
     return result.rows[0].id;
+  }
+
+  /** @param {string} userId */
+  async verifyUserExists(userId) {
+    const result = await this.#pool.query("SELECT id FROM users WHERE id=$1", [
+      userId
+    ]);
+
+    if (result.rowCount < 1) throw new NotFoundError("User tidak ditemukan!");
   }
 }
 

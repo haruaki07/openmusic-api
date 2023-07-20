@@ -39,9 +39,21 @@ class PlaylistSongsResponse extends PlaylistResponse {
   songs;
 }
 
+class PlaylistCollabs {
+  /** @type {string} */
+  id;
+
+  /** @type {string} */
+  playlistId;
+
+  /** @type {string} */
+  userId;
+}
+
 module.exports = {
   Playlist,
   PlaylistRequest,
   PlaylistResponse,
-  PlaylistSongsResponse
+  PlaylistSongsResponse,
+  PlaylistCollabs
 };

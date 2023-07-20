@@ -23,6 +23,9 @@ const AuthValidator = require("./validators/auth");
 const playlist = require("./api/playlist");
 const PlaylistService = require("./services/playlist.service");
 const PlaylistValidator = require("./validators/playlist");
+const collab = require("./api/collab");
+const CollabService = require("./services/collab.service");
+const CollabValidator = require("./validators/collab");
 
 const DEV = process.env.NODE_ENV === "development";
 
@@ -60,6 +63,9 @@ const main = async () => {
 
   const playlistService = new PlaylistService(pool);
   const playlistValidator = new PlaylistValidator();
+
+  const collabService = new CollabService(pool);
+  const collabValidator = new CollabValidator();
 
   await server.register([
     {
@@ -135,6 +141,18 @@ const main = async () => {
       },
       routes: {
         prefix: "/playlists"
+      }
+    },
+    {
+      plugin: collab,
+      options: {
+        collabService,
+        playlistService,
+        userService,
+        validator: collabValidator
+      },
+      routes: {
+        prefix: "/collaborations"
       }
     }
   ]);
