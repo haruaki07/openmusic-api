@@ -2,7 +2,7 @@
  * @typedef {{
  *   songService: import("@/services/song.service");
  *   playlistService: import("@/services/playlist.service");
-*   collabService: import("@/services/collab.service");
+ *   collabService: import("@/services/collab.service");
  *   validator: import("@/validators/playlist");
  * }} PlaylistPluginOptions
  */
@@ -17,7 +17,10 @@ const playlistsPlugin = {
    * @param {import("@hapi/hapi").Server} server
    * @param {PlaylistPluginOptions} param1
    */
-  register: (server, { playlistService, songService, collabService, validator }) => {
+  register: (
+    server,
+    { playlistService, songService, collabService, validator }
+  ) => {
     const handler = new PlaylistHandler(
       playlistService,
       songService,
