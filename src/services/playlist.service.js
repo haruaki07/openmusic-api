@@ -2,7 +2,8 @@ const { InvariantError, NotFoundError } = require("@/exceptions");
 const AuthorizationError = require("@/exceptions/AuthorizationError");
 const {
   PlaylistResponse,
-  PlaylistSongsResponse
+  PlaylistSongsResponse,
+  PlaylistSongActivity
 } = require("@/models/playlist");
 const { SongResponse } = require("@/models/song");
 const { createId, plainToClass } = require("@/utils");
@@ -144,6 +145,27 @@ RETURNING "songId"`,
       throw new NotFoundError(
         "Playlist gagal dihapus! playlist tidak ditemukan."
       );
+  }
+
+  /** @param {string} playlistId */
+  async findSongActivities(playlistId) {
+    const result = await this.#pool.query(
+      `
+SELECT 
+  u.username, s.title, pa.action, pa.time
+FROM playlist_songs_activities pa
+JOIN songs s
+  ON pa."songId" = s.id
+JOIN users u
+  ON pa."userId" = u.id
+WHERE
+  pa."playlistId" = $1
+ORDER BY
+  time ASC`,
+      [playlistId]
+    );
+
+    return result.rows.map((r) => plainToClass(r, PlaylistSongActivity));
   }
 
   /**

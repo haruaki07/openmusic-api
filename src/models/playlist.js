@@ -50,10 +50,25 @@ class PlaylistCollabs {
   userId;
 }
 
+class PlaylistSongActivity {
+  /** @type {string} */
+  username;
+
+  /** @type {string} */
+  title;
+
+  /** @type {"add" | "delete"} */
+  action;
+
+  /** @type {Date | number} */
+  time;
+}
+
 module.exports = {
   Playlist,
   PlaylistRequest,
   PlaylistResponse,
   PlaylistSongsResponse,
-  PlaylistCollabs
+  PlaylistCollabs,
+  PlaylistSongActivity
 };

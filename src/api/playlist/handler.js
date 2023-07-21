@@ -183,6 +183,32 @@ class PlaylistHandler {
       });
     }
   }
+
+  /**
+   * Melihat riwayat aktivitas playlist.
+   *
+   * @type {Handler}
+   */
+  songsActivities = async (req, h) => {
+    const { userId } = req.auth.credentials;
+    const playlistId = req.params.id;
+
+    await this._playlistService.verifyPlaylistOwner({ id: playlistId, userId });
+    const activities = await this._playlistService.findSongActivities(
+      playlistId
+    );
+
+    const res = h.response({
+      status: "success",
+      data: {
+        playlistId,
+        activities
+      }
+    });
+    res.code(200);
+
+    return res;
+  };
 }
 
 module.exports = PlaylistHandler;
