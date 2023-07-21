@@ -42,6 +42,24 @@ RETURNING id`,
     if (result.rows[0].userId !== userId)
       throw new AuthorizationError("Anda tidak berhak mengakses resource ini!");
   }
+
+  /** @param {{ playlistId: string; userId: string }} param0 */
+  async delete({ playlistId, userId }) {
+    const result = await this.#pool.query(
+      `
+DELETE FROM 
+  playlist_collabs 
+WHERE 
+  "playlistId" = $1 AND "userId" = $2 
+RETURNING id`,
+      [playlistId, userId]
+    );
+
+    if (result.rowCount < 1)
+      throw new NotFoundError(
+        "Gagal menghapus kolaborator! kolaborasi tidak ditemukan!"
+      );
+  }
 }
 
 module.exports = CollabService;

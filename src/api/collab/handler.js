@@ -39,6 +39,31 @@ class CollabHandler {
 
     return res;
   };
+
+  /**
+   * Menghapus kolaborator playlist.
+   *
+   * @type {Handler}
+   */
+  destroy = async (req, h) => {
+    const { userId } = req.auth.credentials;
+
+    const payload = this._collabValidator.validateCollabPayload(req.payload);
+
+    await this._playlistService.verifyPlaylistOwner({
+      id: payload.playlistId,
+      userId
+    });
+    await this._collabService.delete(payload);
+
+    const res = h.response({
+      status: "success",
+      message: "Berhasil menghapus kolaborasi!"
+    });
+    res.code(200);
+
+    return res;
+  };
 }
 
 module.exports = CollabHandler;
