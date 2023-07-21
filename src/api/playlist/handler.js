@@ -78,6 +78,12 @@ class PlaylistHandler {
       playlistId,
       songId
     });
+    this._playlistService.logActivity({
+      action: "add",
+      userId,
+      songId,
+      playlistId
+    });
 
     const res = h.response({
       status: "success",
@@ -126,6 +132,13 @@ class PlaylistHandler {
 
     await this.#verifyPlaylistPermission(id, userId);
     await this._playlistService.deletePlaylistSong({ songId, playlistId: id });
+
+    this._playlistService.logActivity({
+      action: "delete",
+      userId,
+      songId,
+      playlistId: id
+    });
 
     const res = h.response({
       status: "success",

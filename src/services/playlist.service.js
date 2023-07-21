@@ -145,6 +145,30 @@ RETURNING "songId"`,
         "Playlist gagal dihapus! playlist tidak ditemukan."
       );
   }
+
+  /**
+   * @param {{
+   *   action: "add" | "delete";
+   *   userId: string;
+   *   songId: string;
+   *   playlistId: string;
+   * }} param0
+   */
+  async logActivity({ action, userId, songId, playlistId }) {
+    try {
+      const id = createId();
+      await this.#pool.query(
+        `
+  INSERT INTO 
+    playlist_songs_activities
+  VALUES
+    ($1, $2, $3, $4, $5, now())`,
+        [id, action, userId, songId, playlistId]
+      );
+    } catch (e) {
+      console.error("An error occurred: ", e);
+    }
+  }
 }
 
 module.exports = PlaylistService;
