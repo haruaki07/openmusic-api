@@ -1,8 +1,8 @@
 const Yup = require("yup");
 
 const loginPayloadSchema = Yup.object({
-  username: Yup.string().required(),
-  password: Yup.string().required()
+  username: Yup.string().required().strict(),
+  password: Yup.string().required().strict()
 });
 
 const refreshTokenPayloadSchema = Yup.object({

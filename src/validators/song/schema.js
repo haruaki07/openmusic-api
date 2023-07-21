@@ -1,12 +1,12 @@
 const Yup = require("yup");
 
 const songPayloadSchema = Yup.object({
-  title: Yup.string().required(),
+  title: Yup.string().strict().required(),
   year: Yup.number().required(),
-  genre: Yup.string().required(),
-  performer: Yup.string().required(),
+  genre: Yup.string().strict().required(),
+  performer: Yup.string().strict().required(),
   duration: Yup.number(),
-  albumId: Yup.string()
+  albumId: Yup.string().strict()
 });
 
 const songFilterSchema = Yup.object({
