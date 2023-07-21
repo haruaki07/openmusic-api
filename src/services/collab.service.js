@@ -36,10 +36,7 @@ RETURNING id`,
       [playlistId]
     );
 
-    if (result.rowCount < 1)
-      throw new NotFoundError("Playlist tidak ditemukan!");
-
-    if (result.rows[0].userId !== userId)
+    if (result.rowCount < 1 || result.rows[0].userId !== userId)
       throw new AuthorizationError("Anda tidak berhak mengakses resource ini!");
   }
 

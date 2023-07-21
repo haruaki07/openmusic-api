@@ -71,18 +71,7 @@ class PlaylistHandler {
     );
     const playlistId = req.params.id;
 
-    try {
-      await this._playlistService.verifyPlaylistOwner({
-        id: playlistId,
-        userId
-      });
-    } catch {
-      await this._collabService.verifyPlaylistCollaborator({
-        playlistId,
-        userId
-      });
-    }
-
+    await this.#verifyPlaylistPermission(playlistId, userId);
     await this._songService.verifySongExist(songId);
 
     await this._playlistService.insertSong({
@@ -108,15 +97,7 @@ class PlaylistHandler {
     const { userId } = req.auth.credentials;
     const id = req.params.id;
 
-    try {
-      await this._playlistService.verifyPlaylistOwner({ id, userId });
-    } catch {
-      await this._collabService.verifyPlaylistCollaborator({
-        playlistId: id,
-        userId
-      });
-    }
-
+    await this.#verifyPlaylistPermission(id, userId);
     const playlistSongs = await this._playlistService.findPlaylistSongs(id);
 
     const res = h.response({
@@ -143,15 +124,7 @@ class PlaylistHandler {
       req.payload
     );
 
-    try {
-      await this._playlistService.verifyPlaylistOwner({ id, userId });
-    } catch {
-      await this._collabService.verifyPlaylistCollaborator({
-        playlistId: id,
-        userId
-      });
-    }
-
+    await this.#verifyPlaylistPermission(id, userId);
     await this._playlistService.deletePlaylistSong({ songId, playlistId: id });
 
     const res = h.response({
@@ -183,6 +156,20 @@ class PlaylistHandler {
 
     return res;
   };
+
+  async #verifyPlaylistPermission(playlistId, userId) {
+    try {
+      await this._playlistService.verifyPlaylistOwner({
+        id: playlistId,
+        userId
+      });
+    } catch {
+      await this._collabService.verifyPlaylistCollaborator({
+        playlistId,
+        userId
+      });
+    }
+  }
 }
 
 module.exports = PlaylistHandler;
