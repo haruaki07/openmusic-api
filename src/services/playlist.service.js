@@ -38,7 +38,7 @@ SELECT
   p.id, p.name, u.username 
 FROM 
   playlists p
-JOIN playlist_collabs pc
+LEFT JOIN playlist_collabs pc
   ON pc."userId" = $1
 JOIN users u
   ON u.id = p.owner

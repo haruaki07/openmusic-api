@@ -19,12 +19,6 @@ class Song {
 
   /** @type {string | null} */
   albumId;
-
-  /** @type {Date} */
-  createdAt;
-
-  /** @type {Date} */
-  updatedAt;
 }
 
 class SongRequest {

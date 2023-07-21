@@ -1,5 +1,7 @@
 /** @typedef {import("@hapi/hapi").Lifecycle.Method} Handler */
 
+const { NotFoundError } = require("@/exceptions");
+
 class PlaylistHandler {
   /**
    * @param {import("@/services/playlist.service")} playlistService
@@ -71,7 +73,7 @@ class PlaylistHandler {
     );
     const playlistId = req.params.id;
 
-    await this.#verifyPlaylistPermission(playlistId, userId);
+    await this.#verifyPlaylistAccess(playlistId, userId);
     await this._songService.verifySongExist(songId);
 
     await this._playlistService.insertSong({
@@ -103,7 +105,7 @@ class PlaylistHandler {
     const { userId } = req.auth.credentials;
     const id = req.params.id;
 
-    await this.#verifyPlaylistPermission(id, userId);
+    await this.#verifyPlaylistAccess(id, userId);
     const playlistSongs = await this._playlistService.findPlaylistSongs(id);
 
     const res = h.response({
@@ -130,7 +132,7 @@ class PlaylistHandler {
       req.payload
     );
 
-    await this.#verifyPlaylistPermission(id, userId);
+    await this.#verifyPlaylistAccess(id, userId);
     await this._playlistService.deletePlaylistSong({ songId, playlistId: id });
 
     this._playlistService.logActivity({
@@ -170,17 +172,19 @@ class PlaylistHandler {
     return res;
   };
 
-  async #verifyPlaylistPermission(playlistId, userId) {
+  async #verifyPlaylistAccess(playlistId, userId) {
     try {
       await this._playlistService.verifyPlaylistOwner({
         id: playlistId,
         userId
       });
-    } catch {
-      await this._collabService.verifyPlaylistCollaborator({
-        playlistId,
-        userId
-      });
+    } catch (e) {
+      if (!(e instanceof NotFoundError)) {
+        await this._collabService.verifyPlaylistCollaborator({
+          playlistId,
+          userId
+        });
+      }
     }
   }
 
