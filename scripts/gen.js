@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const fs = require("fs/promises");
+const path = require("path");
 
 const commands = {
   SERVICE: "service",
@@ -15,7 +16,7 @@ async function main() {
   switch (args[0]) {
     case commands.SERVICE:
       {
-        const filePath = await genService(args[1]);
+        const filePath = await genService(args[1], args[2]);
         console.log(`Service generated: ${filePath}`);
       }
       break;
@@ -126,12 +127,7 @@ module.exports = ${name}sPlugin;
 `;
 
   const dirName = `./src/api/${name}`;
-  try {
-    await fs.access(dirName, fs.constants.F_OK);
-    console.log("Directory is already exist...");
-  } catch {
-    await fs.mkdir(dirName);
-  }
+  await ensureDir(dirName);
   await Promise.all([
     fs.writeFile(`${dirName}/handler.js`, handlerContent, {
       encoding: "utf-8"
@@ -207,12 +203,7 @@ module.exports = ${className};
 `;
 
   const dirName = `./src/validators/${name}`;
-  try {
-    await fs.access(dirName, fs.constants.F_OK);
-    console.log("Directory is already exist...");
-  } catch {
-    await fs.mkdir(dirName);
-  }
+  await ensureDir(dirName);
   await fs.writeFile(`${dirName}/schema.js`, schemaContent, {
     encoding: "utf-8"
   });
@@ -223,7 +214,7 @@ module.exports = ${className};
   return dirName;
 }
 
-async function genService(name) {
+async function genService(name, subdir) {
   const className = `${capitalizeFirst(name)}Service`;
   const fileName = `${name}.service.js`;
   const content = `
@@ -238,12 +229,25 @@ class ${className} {
 
 module.exports = ${className}`;
 
-  const filePath = `./src/services/${fileName}`;
+  const filePath = `./src/services/${
+    subdir ? path.join(subdir, fileName) : fileName
+  }`;
+  if (subdir) await ensureDir(`./src/services/${subdir}`);
+
   await fs.writeFile(filePath, content, {
     encoding: "utf-8"
   });
 
   return filePath;
+}
+
+async function ensureDir(dir) {
+  try {
+    await fs.access(dir, fs.constants.F_OK);
+    console.log("Directory is already exist...");
+  } catch {
+    await fs.mkdir(dir, { recursive: true });
+  }
 }
 
 function capitalizeFirst(str) {
