@@ -2,7 +2,7 @@ const config = {
   env: process.env.NODE_ENV,
   app: {
     host: process.env.HOST,
-    port: process.env.HOST
+    port: process.env.PORT
   },
   pg: {
     host: process.env.PGHOST,
