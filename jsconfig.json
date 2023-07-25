@@ -2,7 +2,7 @@
   "compilerOptions": {
     "checkJs": false,
     "resolveJsonModule": true,
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "target": "ESNext",
     "module": "CommonJS",
     "baseUrl": ".",
