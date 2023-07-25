@@ -27,6 +27,9 @@ const PlaylistValidator = require("./validators/playlist");
 const collab = require("./api/collab");
 const CollabService = require("./services/collab.service");
 const CollabValidator = require("./validators/collab");
+const ProducerService = require("./services/messaging/producer.service");
+const exportsPlugin = require("./api/export");
+const ExportValidator = require("./validators/export");
 
 const DEV = config.env === "development";
 
@@ -50,6 +53,9 @@ const main = async () => {
     }
   });
 
+  const producerService = new ProducerService();
+  await producerService.initialize();
+
   const albumService = new AlbumService(pool);
   const albumValidator = new AlbumValidator();
 
@@ -67,6 +73,8 @@ const main = async () => {
 
   const collabService = new CollabService(pool);
   const collabValidator = new CollabValidator();
+
+  const exportValidator = new ExportValidator();
 
   await server.register([
     {
@@ -155,6 +163,14 @@ const main = async () => {
       },
       routes: {
         prefix: "/collaborations"
+      }
+    },
+    {
+      plugin: exportsPlugin,
+      options: {
+        producerService,
+        playlistService,
+        validator: exportValidator
       }
     }
   ]);

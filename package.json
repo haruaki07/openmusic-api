@@ -16,6 +16,8 @@
   "dependencies": {
     "@hapi/hapi": "^21.3.2",
     "@hapi/jwt": "^3.2.0",
+    "amqp-connection-manager": "^4.1.13",
+    "amqplib": "^0.10.3",
     "bcrypt": "^5.1.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
@@ -25,6 +27,7 @@
   },
   "devDependencies": {
     "@shopify/eslint-plugin": "^42.1.0",
+    "@types/amqplib": "^0.10.1",
     "eslint": "^8.45.0",
     "husky": "^8.0.0",
     "node-pg-migrate": "^6.2.2",

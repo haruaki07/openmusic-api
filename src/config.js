@@ -15,6 +15,9 @@ const config = {
     accessTokenKey: process.env.ACCESS_TOKEN_KEY,
     accessTokenAge: process.env.ACCESS_TOKEN_AGE,
     refreshTokenKey: process.env.REFRESH_TOKEN_KEY
+  },
+  rabbitmq: {
+    url: process.env.RABBITMQ_SERVER
   }
 };
 
