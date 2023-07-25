@@ -1,0 +1,29 @@
+version: "3.3"
+services:
+  rabbitmq:
+    hostname: "rabbitmq-dev"
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    restart: unless-stopped
+    volumes:
+      - /workspace/.rabbitmq/data/:/var/lib/rabbitmq/mnesia/rabbit@rabbitmq-dev
+      - /workspace/.rabbitmq/log/:/var/log/rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - openmusic
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: unless-stopped
+    volumes:
+      - /workspace/.redis/data:/data
+    networks:
+      - openmusic
+    ports:
+      - 6379:6379
+
+networks:
+  openmusic:

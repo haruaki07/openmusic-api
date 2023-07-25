@@ -1,1 +1,32 @@
-image: gitpod/workspace-postgres
+image: gitpod/workspace-postgres:2023-07-20-19-56-24
+
+ports:
+  - name: App
+    port: 3000
+    onOpen: notify
+    visibility: public
+    protocol: http
+
+  - name: PostgreSQL
+    port: 5432
+    onOpen: ignore
+
+  - name: RabbitMQ
+    port: 5672
+    onOpen: ignore
+
+  - name: RabbitMQ Management
+    port: 15672
+    onOpen: notify
+
+  - name: Redis
+    port: 6379
+    onOpen: ignore
+
+tasks:
+  - init: |
+      docker-compose pull
+      docker-compose  -f ./docker-compose.dev.yml up -d
+  - init: |
+      nvm install
+      npm install
