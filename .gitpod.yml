@@ -23,6 +23,14 @@ ports:
     port: 6379
     onOpen: ignore
 
+  - name: MailCrab
+    port: 1025
+    onOpen: ignore
+
+  - name: MailCrab UI
+    port: 1080
+    onOpen: notify
+
 tasks:
   - init: |
       docker-compose pull

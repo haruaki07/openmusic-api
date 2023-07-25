@@ -25,5 +25,13 @@ services:
     ports:
       - 6379:6379
 
+  mailcrab:
+    image: marlonb/mailcrab:latest
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    networks:
+      - openmusic
+
 networks:
   openmusic:
