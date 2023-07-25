@@ -7,6 +7,7 @@ const Yup = require("yup");
 const Jwt = require("@hapi/jwt");
 
 require("../bootstrap");
+const config = require("./config");
 const { ClientError } = require("./exceptions");
 const albums = require("./api/albums");
 const AlbumService = require("./services/album.service");
@@ -27,21 +28,21 @@ const collab = require("./api/collab");
 const CollabService = require("./services/collab.service");
 const CollabValidator = require("./validators/collab");
 
-const DEV = process.env.NODE_ENV === "development";
+const DEV = config.env === "development";
 
 const main = async () => {
   // init database pool
   const pool = new Pool({
-    user: process.env.PGUSER,
-    password: process.env.PGPASSWORD,
-    host: process.env.PGHOST,
-    port: process.env.PGPORT,
-    database: process.env.PGDATABASE
+    user: config.pg.user,
+    password: config.pg.password,
+    host: config.pg.host,
+    port: config.pg.port,
+    database: config.pg.database
   });
 
   const server = Hapi.server({
-    port: process.env.PORT || 3000,
-    host: process.env.HOST || DEV ? "localhost" : "0.0.0.0",
+    port: config.app.port || 3000,
+    host: config.app.host || DEV ? "localhost" : "0.0.0.0",
     routes: {
       cors: {
         origin: ["*"]
@@ -75,12 +76,12 @@ const main = async () => {
 
   // register jwt auth strategy
   server.auth.strategy("api_jwt", "jwt", {
-    keys: process.env.ACCESS_TOKEN_KEY,
+    keys: config.jwt.accessTokenKey,
     verify: {
       aud: false,
       iss: false,
       sub: false,
-      maxAgeSec: process.env.ACCESS_TOKEN_AGE
+      maxAgeSec: config.jwt.accessTokenAge
     },
     validate: (artifacts) => ({
       isValid: true,
