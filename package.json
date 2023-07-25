@@ -8,10 +8,12 @@
   "scripts": {
     "prepare": "husky install",
     "start": "cross-env NODE_ENV=production node src/server.js",
-    "dev": "cross-env NODE_ENV=development nodemon -w ./src src/server.js",
+    "dev": "cross-env NODE_ENV=development nodemon --config .nodemon/server.json",
     "migrate": "node ./scripts/migrate.js",
     "lint": "eslint --max-warnings 2 --ext .js ./src",
-    "format": "prettier -w ./src/**/*"
+    "format": "prettier -w ./src/**/*",
+    "workers": "concurrently -n worker: npm:worker:*",
+    "worker:export-playlist": "node src/workers/export-playlist.js"
   },
   "dependencies": {
     "@hapi/hapi": "^21.3.2",
@@ -22,12 +24,15 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "nanoid": "^3.3.6",
+    "nodemailer": "^6.9.4",
     "pg": "^8.11.1",
     "yup": "^1.2.0"
   },
   "devDependencies": {
     "@shopify/eslint-plugin": "^42.1.0",
     "@types/amqplib": "^0.10.1",
+    "@types/nodemailer": "^6.4.9",
+    "concurrently": "^8.2.0",
     "eslint": "^8.45.0",
     "husky": "^8.0.0",
     "node-pg-migrate": "^6.2.2",
