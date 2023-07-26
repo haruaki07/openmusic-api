@@ -109,6 +109,7 @@ const main = async () => {
       plugin: albums,
       options: {
         albumService,
+        songService,
         storageService,
         cacheService,
         validator: albumValidator

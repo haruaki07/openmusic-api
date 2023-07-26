@@ -6,6 +6,7 @@ const routes = require("./routes");
  *   storageService: import("@/services/storage/storage.service");
  *   cacheService: import("@/services/cache/cache.service");
  *   albumService: import("@/services/album.service");
+ *   songService: import("@/services/song.service");
  *   validator: import("@/validators/album");
  * }} AlbumPluginOptions
  */
@@ -19,10 +20,11 @@ const plugin = {
    */
   register: (
     server,
-    { albumService, storageService, cacheService, validator }
+    { albumService, songService, storageService, cacheService, validator }
   ) => {
     const albumHandler = new AlbumHandler(
       albumService,
+      songService,
       storageService,
       cacheService,
       validator

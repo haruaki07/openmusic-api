@@ -5,12 +5,20 @@ const { InvariantError } = require("@/exceptions");
 class AlbumHandler {
   /**
    * @param {import("@/services/album.service")} albumService
+   * @param {import("@/services/song.service")} songService
    * @param {import("@/services/storage/storage.service")} storageService
    * @param {import("@/services/cache/cache.service")} cacheService
    * @param {import("@/validators/album")} albumValidator
    */
-  constructor(albumService, storageService, cacheService, albumValidator) {
+  constructor(
+    albumService,
+    songService,
+    storageService,
+    cacheService,
+    albumValidator
+  ) {
     this._albumService = albumService;
+    this._songService = songService;
     this._storageService = storageService;
     this._cacheService = cacheService;
     this._albumValidator = albumValidator;
@@ -44,6 +52,7 @@ class AlbumHandler {
     const id = req.params.id;
 
     const album = await this._albumService.findById(id);
+    album.songs = await this._songService.findByAlbumId(album.id);
 
     const res = h.response({
       status: "success",

@@ -1,5 +1,4 @@
 const { AlbumDetailed } = require("@/models/album");
-const { SongResponse } = require("@/models/song");
 const { InvariantError, NotFoundError } = require("@/exceptions");
 const { nanoid } = require("nanoid");
 const { plainToClass } = require("@/utils");
@@ -33,24 +32,16 @@ class AlbumService {
   /** @param {string} id */
   async findById(id) {
     // should i use join here
-    const resAlbum = await this._pool.query(
+    const result = await this._pool.query(
       `SELECT id, name, year, "coverUrl" FROM albums WHERE id=$1`,
       [id]
     );
 
-    if (resAlbum.rowCount < 1) {
+    if (result.rowCount < 1) {
       throw new NotFoundError("Album tidak ditemukan!");
     }
 
-    const row = resAlbum.rows[0];
-
-    const resSongs = await this._pool.query(
-      `SELECT id, title, performer FROM songs WHERE "albumId"=$1`,
-      [row.id]
-    );
-    const songs = resSongs.rows.map((r) => plainToClass(r, SongResponse));
-
-    return plainToClass({ ...row, songs }, AlbumDetailed);
+    return plainToClass(result.rows[0], AlbumDetailed);
   }
 
   /**

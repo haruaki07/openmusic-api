@@ -124,6 +124,14 @@ WHERE
 
     return result.rows[0].id;
   }
+
+  async findByAlbumId(albumId) {
+    const result = await this._pool.query(
+      `SELECT id, title, performer FROM songs WHERE "albumId"=$1`,
+      [albumId]
+    );
+    return result.rows.map((r) => plainToClass(r, SongResponse));
+  }
 }
 
 module.exports = SongService;
