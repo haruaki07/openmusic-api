@@ -36,6 +36,27 @@ const routes = (handler) => [
         output: "stream"
       }
     }
+  },
+  {
+    method: "POST",
+    path: "/{id}/likes",
+    handler: handler.storeAlbumLike,
+    options: {
+      auth: "api_jwt"
+    }
+  },
+  {
+    method: "GET",
+    path: "/{id}/likes",
+    handler: handler.showAlbumLikes
+  },
+  {
+    method: "DELETE",
+    path: "/{id}/likes",
+    handler: handler.destroyAlbumLike,
+    options: {
+      auth: "api_jwt"
+    }
   }
 ];
 

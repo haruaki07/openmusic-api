@@ -92,6 +92,45 @@ class AlbumService {
       albumId
     ]);
   }
+
+  async verifyAlbumExist(id) {
+    const res = await this._pool.query("SELECT id FROM albums WHERE id=$1", [
+      id
+    ]);
+
+    if (res.rowCount < 1) throw new NotFoundError("Album tidak ditemukan!");
+  }
+
+  async addAlbumLike({ albumId, userId }) {
+    const result = await this._pool.query(
+      `SELECT "albumId" FROM album_likes WHERE "albumId"=$1 AND "userId"=$2`,
+      [albumId, userId]
+    );
+
+    if (result.rowCount > 0)
+      throw new InvariantError("Gagal menyukai album! Album sudah disukai.");
+
+    await this._pool.query("INSERT INTO album_likes VALUES ($1, $2)", [
+      albumId,
+      userId
+    ]);
+  }
+
+  async deleteAlbumLike({ albumId, userId }) {
+    await this._pool.query(
+      `DELETE FROM album_likes WHERE "albumId"=$1 AND "userId"=$2`,
+      [albumId, userId]
+    );
+  }
+
+  async getAlbumLikes(albumId) {
+    const result = await this._pool.query(
+      `SELECT COUNT("userId") as likes FROM album_likes WHERE "albumId"=$1`,
+      [albumId]
+    );
+
+    return +result.rows[0].likes;
+  }
 }
 
 module.exports = AlbumService;

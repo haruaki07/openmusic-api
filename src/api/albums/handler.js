@@ -121,6 +121,66 @@ class AlbumHandler {
 
     return res;
   };
+
+  /**
+   * Menyukai album.
+   *
+   * @type {Handler}
+   */
+  storeAlbumLike = async (req, h) => {
+    const { userId } = req.auth.credentials;
+    const albumId = req.params.id;
+
+    await this._albumService.verifyAlbumExist(albumId);
+    await this._albumService.addAlbumLike({ albumId, userId });
+
+    const res = h.response({
+      status: "success",
+      message: "Berhasil menyukai album"
+    });
+    res.code(201);
+
+    return res;
+  };
+
+  /**
+   * Melihat jumlah yang menyukai album.
+   *
+   * @type {Handler}
+   */
+  showAlbumLikes = async (req, h) => {
+    const albumId = req.params.id;
+
+    await this._albumService.verifyAlbumExist(albumId);
+    const likes = await this._albumService.getAlbumLikes(albumId);
+
+    const res = h.response({
+      status: "success",
+      data: { likes }
+    });
+
+    return res;
+  };
+
+  /**
+   * Batal menyukai album.
+   *
+   * @type {Handler}
+   */
+  destroyAlbumLike = async (req, h) => {
+    const { userId } = req.auth.credentials;
+    const albumId = req.params.id;
+
+    await this._albumService.verifyAlbumExist(albumId);
+    await this._albumService.deleteAlbumLike({ albumId, userId });
+
+    const res = h.response({
+      status: "success",
+      message: "Berhasil batal menyukai album"
+    });
+
+    return res;
+  };
 }
 
 module.exports = AlbumHandler;
