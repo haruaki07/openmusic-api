@@ -117,10 +117,15 @@ class AlbumService {
   }
 
   async deleteAlbumLike({ albumId, userId }) {
-    await this._pool.query(
-      `DELETE FROM album_likes WHERE "albumId"=$1 AND "userId"=$2`,
+    const result = await this._pool.query(
+      `DELETE FROM album_likes WHERE "albumId"=$1 AND "userId"=$2 RETURNING *`,
       [albumId, userId]
     );
+
+    if (result.rowCount < 1)
+      throw new InvariantError(
+        "Gagal batal menyukai album! data tidak ditemukan"
+      );
   }
 
   async getAlbumLikes(albumId) {
