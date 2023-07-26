@@ -6,11 +6,13 @@ class AlbumHandler {
   /**
    * @param {import("@/services/album.service")} albumService
    * @param {import("@/services/storage/storage.service")} storageService
+   * @param {import("@/services/cache/cache.service")} cacheService
    * @param {import("@/validators/album")} albumValidator
    */
-  constructor(albumService, storageService, albumValidator) {
+  constructor(albumService, storageService, cacheService, albumValidator) {
     this._albumService = albumService;
     this._storageService = storageService;
+    this._cacheService = cacheService;
     this._albumValidator = albumValidator;
   }
 
@@ -134,6 +136,11 @@ class AlbumHandler {
     await this._albumService.verifyAlbumExist(albumId);
     await this._albumService.addAlbumLike({ albumId, userId });
 
+    const cacheKey = this.getAlbumLikeCacheKey(albumId);
+    if (await this._cacheService.isExist(cacheKey)) {
+      await this._cacheService.delete(cacheKey);
+    }
+
     const res = h.response({
       status: "success",
       message: "Berhasil menyukai album"
@@ -152,12 +159,21 @@ class AlbumHandler {
     const albumId = req.params.id;
 
     await this._albumService.verifyAlbumExist(albumId);
-    const likes = await this._albumService.getAlbumLikes(albumId);
+
+    const cacheKey = this.getAlbumLikeCacheKey(albumId);
+    const cachedLikes = await this._cacheService.get(cacheKey);
+    let likes =
+      +cachedLikes ?? (await this._albumService.getAlbumLikes(albumId));
+
+    if (cachedLikes == null)
+      await this._cacheService.set(cacheKey, likes, 60 * 30); // 30 minutes
 
     const res = h.response({
       status: "success",
       data: { likes }
     });
+
+    if (cachedLikes != null) res.header("X-Data-Source", "cache");
 
     return res;
   };
@@ -174,6 +190,11 @@ class AlbumHandler {
     await this._albumService.verifyAlbumExist(albumId);
     await this._albumService.deleteAlbumLike({ albumId, userId });
 
+    const cacheKey = this.getAlbumLikeCacheKey(albumId);
+    if (await this._cacheService.isExist(cacheKey)) {
+      await this._cacheService.delete(cacheKey);
+    }
+
     const res = h.response({
       status: "success",
       message: "Berhasil batal menyukai album"
@@ -181,6 +202,10 @@ class AlbumHandler {
 
     return res;
   };
+
+  getAlbumLikeCacheKey(albumId) {
+    return `album_likes:${albumId}`;
+  }
 }
 
 module.exports = AlbumHandler;

@@ -31,6 +31,7 @@ const ProducerService = require("./services/messaging/producer.service");
 const exportsPlugin = require("./api/export");
 const ExportValidator = require("./validators/export");
 const StorageService = require("./services/storage/storage.service");
+const CacheService = require("./services/cache/cache.service");
 
 const DEV = config.env === "development";
 
@@ -57,6 +58,7 @@ const main = async () => {
   const producerService = new ProducerService();
   await producerService.initialize();
 
+  const cacheService = new CacheService();
   const storageService = new StorageService();
 
   const albumService = new AlbumService(pool);
@@ -108,6 +110,7 @@ const main = async () => {
       options: {
         albumService,
         storageService,
+        cacheService,
         validator: albumValidator
       },
       routes: {
