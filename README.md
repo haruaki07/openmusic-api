@@ -1,4 +1,4 @@
-## OpenMusic API V1
+## OpenMusic API V2
 
 This is submission for [Dicoding](https://www.dicoding.com) course, [Belajar Fundamental Aplikasi Back-End](https://www.dicoding.com/academies/271/corridor).
 
