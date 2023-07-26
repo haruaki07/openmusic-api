@@ -237,7 +237,8 @@ const main = async () => {
 
     if (process.stdout.isTTY) {
       str +=
-        ".".repeat(process.stdout.columns - str.length - time.length - 1) + " ";
+        ".".repeat(process.stdout.columns - str.length - time.length - 1 ?? 0) +
+        " ";
     }
 
     str += time;

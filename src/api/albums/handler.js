@@ -162,9 +162,10 @@ class AlbumHandler {
 
     const cacheKey = this.getAlbumLikeCacheKey(albumId);
     const cachedLikes = await this._cacheService.get(cacheKey);
-    let likes =
-      +cachedLikes ?? (await this._albumService.getAlbumLikes(albumId));
-
+    let likes = +(
+      cachedLikes ?? (await this._albumService.getAlbumLikes(albumId))
+    );
+    console.log(cachedLikes);
     if (cachedLikes == null)
       await this._cacheService.set(cacheKey, likes, 60 * 30); // 30 minutes
 
