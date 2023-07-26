@@ -62,7 +62,6 @@ class AuthHandler {
       status: "success",
       data: { accessToken }
     });
-    res.code(200);
 
     return res;
   };
@@ -84,7 +83,6 @@ class AuthHandler {
       status: "success",
       message: "Refresh token berhasil dihapus!"
     });
-    res.code(200);
 
     return res;
   };

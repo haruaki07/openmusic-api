@@ -56,7 +56,6 @@ class PlaylistHandler {
       status: "success",
       data: { playlists }
     });
-    res.code(200);
 
     return res;
   };
@@ -114,7 +113,6 @@ class PlaylistHandler {
         playlist: playlistSongs
       }
     });
-    res.code(200);
 
     return res;
   };
@@ -146,7 +144,6 @@ class PlaylistHandler {
       status: "success",
       message: "Lagu berhasil dihapus dari playlist!"
     });
-    res.code(200);
 
     return res;
   };
@@ -167,7 +164,6 @@ class PlaylistHandler {
       status: "success",
       message: "Playlist berhasil dihapus!"
     });
-    res.code(200);
 
     return res;
   };
@@ -209,7 +205,6 @@ class PlaylistHandler {
         activities
       }
     });
-    res.code(200);
 
     return res;
   };

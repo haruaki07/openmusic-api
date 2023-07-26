@@ -49,7 +49,6 @@ class AlbumHandler {
       status: "success",
       data: { album }
     });
-    res.code(200);
 
     return res;
   };
@@ -69,7 +68,6 @@ class AlbumHandler {
       status: "success",
       message: "Album berhasil diperbarui!"
     });
-    res.code(200);
 
     return res;
   };
@@ -88,7 +86,6 @@ class AlbumHandler {
       status: "success",
       message: "Album berhasil dihapus!"
     });
-    res.code(200);
 
     return res;
   };

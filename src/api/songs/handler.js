@@ -42,7 +42,6 @@ class SongHandler {
       status: "success",
       data: { songs }
     });
-    res.code(200);
 
     return res;
   };
@@ -61,7 +60,6 @@ class SongHandler {
       status: "success",
       data: { song }
     });
-    res.code(200);
 
     return res;
   };
@@ -81,7 +79,6 @@ class SongHandler {
       status: "success",
       message: "Lagu berhasil diperbarui!"
     });
-    res.code(200);
 
     return res;
   };
@@ -100,7 +97,6 @@ class SongHandler {
       status: "success",
       message: "Lagu berhasil dihapus!"
     });
-    res.code(200);
 
     return res;
   };

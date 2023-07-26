@@ -60,7 +60,6 @@ class CollabHandler {
       status: "success",
       message: "Berhasil menghapus kolaborasi!"
     });
-    res.code(200);
 
     return res;
   };
