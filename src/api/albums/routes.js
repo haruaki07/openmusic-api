@@ -23,6 +23,19 @@ const routes = (handler) => [
     method: "DELETE",
     path: "/{id}",
     handler: handler.destroy
+  },
+  {
+    method: "POST",
+    path: "/{id}/covers",
+    handler: handler.uploadCover,
+    options: {
+      payload: {
+        allow: "multipart/form-data",
+        multipart: true,
+        maxBytes: 512000,
+        output: "stream"
+      }
+    }
   }
 ];
 

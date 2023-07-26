@@ -17,7 +17,7 @@ ports:
 
   - name: RabbitMQ Management
     port: 15672
-    onOpen: notify
+    onOpen: ignore
 
   - name: Redis
     port: 6379
@@ -29,7 +29,15 @@ ports:
 
   - name: MailCrab UI
     port: 1080
-    onOpen: notify
+    onOpen: ignore
+
+  - name: MinIO
+    port: 9000
+    onOpen: ignore
+
+  - name: MinIO Console
+    port: 9090
+    onOpen: ignore
 
 tasks:
   - init: |

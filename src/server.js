@@ -30,6 +30,7 @@ const CollabValidator = require("./validators/collab");
 const ProducerService = require("./services/messaging/producer.service");
 const exportsPlugin = require("./api/export");
 const ExportValidator = require("./validators/export");
+const StorageService = require("./services/storage/storage.service");
 
 const DEV = config.env === "development";
 
@@ -55,6 +56,8 @@ const main = async () => {
 
   const producerService = new ProducerService();
   await producerService.initialize();
+
+  const storageService = new StorageService();
 
   const albumService = new AlbumService(pool);
   const albumValidator = new AlbumValidator();
@@ -103,7 +106,8 @@ const main = async () => {
     {
       plugin: albums,
       options: {
-        service: albumService,
+        albumService,
+        storageService,
         validator: albumValidator
       },
       routes: {

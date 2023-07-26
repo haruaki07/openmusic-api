@@ -34,7 +34,7 @@ class AlbumService {
   async findById(id) {
     // should i use join here
     const resAlbum = await this._pool.query(
-      "SELECT id, name, year FROM albums WHERE id=$1",
+      `SELECT id, name, year, "coverUrl" FROM albums WHERE id=$1`,
       [id]
     );
 
@@ -84,6 +84,13 @@ class AlbumService {
     if (result.rowCount < 1) {
       throw new NotFoundError("Gagal menghapus album! Album tidak ditemukan.");
     }
+  }
+
+  async updateAlbumCover({ albumId, coverUrl }) {
+    await this._pool.query(`UPDATE albums SET "coverUrl"=$1 WHERE id=$2`, [
+      coverUrl,
+      albumId
+    ]);
   }
 }
 

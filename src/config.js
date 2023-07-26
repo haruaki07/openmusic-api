@@ -24,6 +24,13 @@ const config = {
     port: process.env.MAIL_PORT,
     user: process.env.MAIL_ADDRESS,
     password: process.env.MAIL_PASSWORD
+  },
+  s3: {
+    region: process.env.AWS_REGION,
+    endpoint: process.env.AWS_ENDPOINT,
+    bucketName: process.env.AWS_BUCKET_NAME,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
   }
 };
 

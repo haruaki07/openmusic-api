@@ -1,12 +1,16 @@
 /** @typedef {import("@hapi/hapi").Lifecycle.Method} Handler */
 
+const { InvariantError } = require("@/exceptions");
+
 class AlbumHandler {
   /**
    * @param {import("@/services/album.service")} albumService
+   * @param {import("@/services/storage/storage.service")} storageService
    * @param {import("@/validators/album")} albumValidator
    */
-  constructor(albumService, albumValidator) {
+  constructor(albumService, storageService, albumValidator) {
     this._albumService = albumService;
+    this._storageService = storageService;
     this._albumValidator = albumValidator;
   }
 
@@ -83,6 +87,37 @@ class AlbumHandler {
       message: "Album berhasil dihapus!"
     });
     res.code(200);
+
+    return res;
+  };
+
+  /**
+   * Mengunggah sampul album.
+   *
+   * @type {Handler}
+   */
+  uploadCover = async (req, h) => {
+    const albumId = req.params.id;
+
+    const cover = req.payload.cover;
+    if (!cover) return new InvariantError("cover is a required field");
+
+    this._albumValidator.validateCoverContentType(
+      cover.hapi?.headers["content-type"]
+    );
+
+    const coverUrl = await this._storageService.storeAlbumCover(
+      cover.hapi.filename,
+      cover
+    );
+
+    await this._albumService.updateAlbumCover({ albumId, coverUrl });
+
+    const res = h.response({
+      status: "success",
+      message: "Sampul berhasil diunggah"
+    });
+    res.code(201);
 
     return res;
   };

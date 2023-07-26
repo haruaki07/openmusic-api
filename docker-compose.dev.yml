@@ -26,10 +26,32 @@ services:
       - 6379:6379
 
   mailcrab:
+    container_name: mailcrab
     image: marlonb/mailcrab:latest
     ports:
       - "1080:1080"
       - "1025:1025"
+    networks:
+      - openmusic
+
+  minio:
+    image: minio/minio
+    container_name: minio
+    restart: unless-stopped
+    command: |
+      server /data --console-address ":9090"
+    ports:
+      - 9000:9000
+      - 9090:9090
+    volumes:
+      - /workspace/.minio/data:/data
+      - /workspace/.minio/:/var/log/minio.log
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+      MINIO_REGION: ap-southeast-3
+      MINIO_DOMAIN: s3.ap-southeast-3.amazonaws.com
+      MINIO_HTTP_TRACE: /var/log/minio.log
     networks:
       - openmusic
 

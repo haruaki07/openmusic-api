@@ -5,6 +5,23 @@ const albumPayloadSchema = Yup.object({
   year: Yup.number().required()
 });
 
+const albumCoverContentTypeSchema = Yup.string()
+  .required()
+  .oneOf(
+    [
+      "image/apng",
+      "image/avif",
+      "image/gif",
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "image/tiff"
+    ],
+    "File harus berupa gambar!"
+  )
+  .strict();
+
 module.exports = {
-  albumPayloadSchema
+  albumPayloadSchema,
+  albumCoverContentTypeSchema
 };

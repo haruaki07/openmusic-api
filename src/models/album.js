@@ -8,6 +8,9 @@ class Album {
   /** @type {number} */
   year;
 
+  /** @type {string} */
+  coverUrl;
+
   /** @type {Date} */
   createdAt;
 

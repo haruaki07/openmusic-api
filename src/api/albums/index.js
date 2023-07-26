@@ -3,7 +3,8 @@ const routes = require("./routes");
 
 /**
  * @typedef {{
- *   service: import("@/services/album.service");
+ *   storageService: import("@/services/storage/storage.service");
+ *   albumService: import("@/services/album.service");
  *   validator: import("@/validators/album");
  * }} AlbumPluginOptions
  */
@@ -15,8 +16,12 @@ const plugin = {
    * @param {import("@hapi/hapi").Server} server
    * @param {AlbumPluginOptions} param1
    */
-  register: (server, { service, validator }) => {
-    const albumHandler = new AlbumHandler(service, validator);
+  register: (server, { albumService, storageService, validator }) => {
+    const albumHandler = new AlbumHandler(
+      albumService,
+      storageService,
+      validator
+    );
     server.route(routes(albumHandler));
   }
 };

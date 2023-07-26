@@ -1,5 +1,5 @@
 const { ClientError } = require("@/exceptions");
-const { albumPayloadSchema } = require("./schema");
+const { albumPayloadSchema, albumCoverContentTypeSchema } = require("./schema");
 
 class AlbumValidator {
   /** @param {import("@/models/album").AlbumRequest} payload */
@@ -8,6 +8,11 @@ class AlbumValidator {
 
     const value = albumPayloadSchema.validateSync(payload);
     return value;
+  }
+
+  /** @param {string} payload */
+  validateCoverContentType(payload) {
+    return albumCoverContentTypeSchema.validateSync(payload);
   }
 }
 
