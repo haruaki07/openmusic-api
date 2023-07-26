@@ -40,9 +40,11 @@ ports:
     onOpen: ignore
 
 tasks:
+  - command: |
+      echo "127.0.0.1 s3.ap-southeast-3.amazonaws.com openmusic.s3.ap-southeast-3.amazonaws.com" | sudo tee -a /etc/hosts
+      docker-compose  -f ./docker-compose.dev.yml up -d
   - init: |
       docker-compose pull
-      docker-compose  -f ./docker-compose.dev.yml up -d
   - init: |
       nvm install
       npm install
