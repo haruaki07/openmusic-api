@@ -1,5 +1,20 @@
 version: "3.3"
 services:
+  postgres:
+    image: postgres:alpine
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: openmusic
+      POSTGRES_PASSWORD: openmusic
+      POSTGRES_DB: openmusicdb
+    volumes:
+      - /workspace/.postgres/data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - openmusic
+
   rabbitmq:
     hostname: "rabbitmq-dev"
     image: rabbitmq:3-management-alpine
