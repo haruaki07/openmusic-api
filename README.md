@@ -25,7 +25,6 @@ or with nvm ([Node Version Manager](https://github.com/nvm-sh/nvm)),
 #### Run Server (Dev)
 
 1. Run dev server, `npm run dev`.
-2. Run workers on another terminal, `npm run workers`
 
 #### Run Server (Prod)
 

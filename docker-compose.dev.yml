@@ -25,15 +25,6 @@ services:
     ports:
       - 6379:6379
 
-  mailcrab:
-    container_name: mailcrab
-    image: marlonb/mailcrab:latest
-    ports:
-      - "1080:1080"
-      - "1025:1025"
-    networks:
-      - openmusic
-
   minio:
     image: minio/minio
     container_name: minio
