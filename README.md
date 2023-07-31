@@ -29,3 +29,9 @@ or with nvm ([Node Version Manager](https://github.com/nvm-sh/nvm)),
 #### Run Server (Prod)
 
 1. Run dev server, `npm run start`.
+
+#### Test (Postman)
+
+1. Run `npm run test`.
+
+or import collections and environment file under `/postman` directory using Postman desktop.
