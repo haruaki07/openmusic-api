@@ -221,30 +221,8 @@ const main = async () => {
     return h.continue;
   });
 
-  server.ext("onRequest", (req, h) => {
-    // add start milliseconds to app ctx for http log
-    req.app._startMs = performance.now();
-
-    return h.continue;
-  });
-
-  // http logging
-  server.events.on("response", function (req) {
-    let str = `${new Date().toISOString()} [${req.response.statusCode}] ${
-      req.path
-    } `;
-    const now = performance.now();
-    const time = `${(now - (req.app._startMs ?? now)).toFixed(2)}ms`;
-
-    if (process.stdout.isTTY) {
-      str +=
-        ".".repeat(process.stdout.columns - str.length - time.length - 1 ?? 0) +
-        " ";
-    }
-
-    str += time;
-
-    console.log(str);
+  server.events.on('response', (request) => {
+    console.log(`[${new Date().toISOString()}] [${request.method.toUpperCase()}] ${request.path} (${request.response.statusCode}) - ${request.info.responded - request.info.received} ms`);
   });
 
   await server.start();
